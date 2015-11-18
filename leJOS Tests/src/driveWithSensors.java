@@ -88,7 +88,8 @@ public class driveWithSensors {
 	private static void drawLCD(int state) { // 1=Vorwärts, 2=Linksdrehen,
 												// 3=Rechtsdrehen
 
-		if (System.currentTimeMillis() - timeSinceRedraw > 500) {
+		// Bildschirm wird nur alle 500ms neugezeichnet
+		if (System.currentTimeMillis() - timeSinceRedraw > 500) { 
 			timeSinceRedraw = System.currentTimeMillis();
 			// aktueller Zustand
 			String current;
