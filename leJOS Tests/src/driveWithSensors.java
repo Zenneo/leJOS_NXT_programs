@@ -104,7 +104,6 @@ public class driveWithSensors {
 			} else {
 				current = "Beenden";
 			}
-
 			// tatsächliches Zeichnen auf dem Bildschirm
 			LCD.clear();
 			LCD.drawString("Distanz 1: " + sonic1.getDistance(), 0, 0);
