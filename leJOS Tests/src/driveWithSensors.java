@@ -11,7 +11,7 @@ public class driveWithSensors {
 											// damit der Roboter weiterfährt
 	private static int speedForward = 1000; // Geschwindigkeit beim
 											// Vorwärtsfahren
-	private static int speedTurning = 250; // Geschwindigkeit beim Umdrehen
+	private static int speedTurning = 150; // Geschwindigkeit beim Umdrehen
 
 	private static UltrasonicSensor sonic1 = new UltrasonicSensor(SensorPort.S1);
 	private static UltrasonicSensor sonic2 = new UltrasonicSensor(SensorPort.S2);
