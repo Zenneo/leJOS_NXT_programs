@@ -3,7 +3,7 @@ import lejos.nxt.*;
 // Wenn sensor 1 kleiner als sensors 2, dann Motor a forward, Motor B backwards
 
 public class driveWithSensors {
-	private static int waitBetweenCommands = 200; // Pause zwischen Kommandos in
+	private static int waitBetweenCommands = 100; // Pause zwischen Kommandos in
 													// Millisekunden
 	private static int distanceClose = 25; // Distanz, ab der der sich der Roboter
 											// umdreht
@@ -11,7 +11,7 @@ public class driveWithSensors {
 											// damit der Roboter weiterfährt
 	private static int speedForward = 1000; // Geschwindigkeit beim
 											// Vorwärtsfahren
-	private static int speedTurning = 200; // Geschwindigkeit beim Umdrehen
+	private static int speedTurning = 250; // Geschwindigkeit beim Umdrehen
 
 	private static UltrasonicSensor sonic1 = new UltrasonicSensor(SensorPort.S1);
 	private static UltrasonicSensor sonic2 = new UltrasonicSensor(SensorPort.S2);
