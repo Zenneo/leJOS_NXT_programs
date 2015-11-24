@@ -24,7 +24,7 @@ public class driveWithSensors {
 			// Vorwärtsfahren
 			setSpeedTotal(speedForward);
 			while (sonic1.getDistance() > distanceClose
-					|| sonic2.getDistance() > distanceClose) {
+					&& sonic2.getDistance() > distanceClose) {
 				drawLCD(1);
 				goForward();
 
