@@ -5,7 +5,7 @@ import lejos.nxt.*;
 public class driveWithSensors {
 	private static int waitBetweenCommands = 200; // Pause zwischen Kommandos in
 													// Millisekunden
-	private static int distanceClose = 25; // Distanz, aber der sich der Roboter
+	private static int distanceClose = 25; // Distanz, ab der der sich der Roboter
 											// umdreht
 	private static int distanceFar = 50; // Distanz, die erreicht werden muss,
 											// damit der Roboter weiterfährt
