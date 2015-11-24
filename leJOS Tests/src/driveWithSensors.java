@@ -39,10 +39,8 @@ public class driveWithSensors {
 			while (sonic1.getDistance() < distanceFar
 					&& sonic2.getDistance() < distanceFar) {
 				if (sonic1.getDistance() > sonic2.getDistance()) {
-					drawLCD(2);
 					turnLeft();
 				} else {
-					drawLCD(3);
 					turnRight();
 				}
 
@@ -60,12 +58,14 @@ public class driveWithSensors {
 	private static void turnLeft() throws InterruptedException {
 		motor1.forward();
 		motor2.backward();
+		drawLCD(2);
 		Thread.sleep(waitBetweenCommands);
 	}
 
 	private static void turnRight() throws InterruptedException {
 		motor1.backward();
 		motor2.forward();
+		drawLCD(3);
 		Thread.sleep(waitBetweenCommands);
 	}
 
