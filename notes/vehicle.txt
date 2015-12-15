@@ -1,0 +1,8 @@
+- 2 engines
+- 2 push-sensors
+- first placed @ station 1 ready to act
+- starts when triggered
+- drives till push gets triggered
+- stopps till triggered
+- drives in opposite direction till other push is triggered
+- ...
