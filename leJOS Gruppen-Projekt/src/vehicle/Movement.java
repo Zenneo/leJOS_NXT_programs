@@ -39,8 +39,8 @@ public class Movement {
 	}
 	
 	public void stop() {
-		engine1.stop();
-		engine2.stop();
+		engine1.stop(true);
+		engine2.stop(true);
 		vehicle_movement = 1;
 	}
 	
