@@ -95,6 +95,8 @@ public class Main {
 	private void check_position() {
 		// TODO Check position based on sensors
 		vehicle_position = 5; // please change this
+		
+		
 	}
 
 	private void moveToStation(int station) {
