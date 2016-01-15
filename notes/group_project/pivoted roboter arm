@@ -1,0 +1,8 @@
+- 2 engines
+- no sensors
+- first place needs to have necessary distance to the object to be caried @ station 1
+- drive till item is reached with fork (triggers push sensor at this position)
+- elevate fork
+- turn the arm towards opposite direction
+- when station 2 is reached and push sensor is triggered, lower fork and drop item
+- turn arm the opposite direction
