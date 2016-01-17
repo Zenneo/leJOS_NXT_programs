@@ -19,18 +19,23 @@ public class Movement {
 		return vehicle_movement;
 	}	
 	
+	// vehicle position
+	private Position pos;
+	
 	/* --Engines-- */	
 	private NXTRegulatedMotor engine1;
 	private NXTRegulatedMotor engine2;
 	//Engine speed
 	private int engine_speed = 100;
 	
-	public Movement(NXTRegulatedMotor motor1, NXTRegulatedMotor motor2) {
+	public Movement(NXTRegulatedMotor motor1, NXTRegulatedMotor motor2, Position posi) {
 		engine1 = motor1;
 		engine1.setSpeed(engine_speed);
 		
 		engine2 = motor2;
 		engine2.setSpeed(engine_speed);
+		
+		pos = posi;
 		
 		checkMovement();
 	}
@@ -45,7 +50,7 @@ public class Movement {
 		}
 	}
 	
-	public void moveToStation(int station, int task) {
+	public void moveToStation(int station) {
 		if (station == 1) {
 			// TODO Move vehicle to station
 		} else if (station == 2) {

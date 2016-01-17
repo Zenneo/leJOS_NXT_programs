@@ -1,10 +1,12 @@
 package vehicle;
 
 import lejos.nxt.Button;
+import lejos.nxt.LCD;
 import lejos.nxt.Motor;
 import lejos.nxt.NXTRegulatedMotor;
 import lejos.nxt.SensorPort;
 import lejos.nxt.TouchSensor;
+import lejos.nxt.comm.RConsole;
 import vehicle.Movement;
 
 public class Main {
@@ -19,7 +21,7 @@ public class Main {
 	// engines
 	private NXTRegulatedMotor engine1 = Motor.A;
 	private NXTRegulatedMotor engine2 = Motor.B;
-	private Movement Move = new Movement(engine1, engine2);
+	private Movement Move = new Movement(engine1, engine2, Pos);
 	
 		
 	/* --Status Codes-- */
@@ -34,7 +36,11 @@ public class Main {
 	
 	
 	
-	public void main() {
+	public void main() throws InterruptedException {
+		// pre-program
+		enterDebuggingMode(); //enters debug mode if necessary
+		
+		
 		// Main Loop
 		while (!exitProgram) {
 			switch (Move.getVehicle_movement()) { // Check current vehicle status
@@ -48,11 +54,11 @@ public class Main {
 						switch (Pos.getVehicle_position()) {
 							case 1:
 								current_task = 2; // move to station 2
-								Move.moveToStation(2, current_task);
+								Move.moveToStation(2);
 								break;
 							case 2:
-								current_task = 1; // move to staiton 1
-								Move.moveToStation(1, current_task);
+								current_task = 1; // move to station 1
+								Move.moveToStation(1);
 								break;
 						}
 					} else if (Pos.getVehicle_position() == 0) { // Position unknown
@@ -99,6 +105,28 @@ public class Main {
 		
 	}
 
+	// This function will activate RemoteDebugging after a prompt
+	private void enterDebuggingMode() throws InterruptedException {
+		// print LCD prompt
+		LCD.clear();
+		LCD.drawString("Press orange to", 0, 0);
+		LCD.drawString("connect console.", 0, 1);
+		LCD.drawString("Skip timer with", 0, 3);
+		LCD.drawString("right.", 0, 4);
+		
+		for (int i=10; i>0; i--) {
+			LCD.clear(6);
+			LCD.drawString(i + " seconds left", 0, 6);
+			if (Button.RIGHT.isDown()) {
+				LCD.clear();
+				return;
+			} else if (Button.ENTER.isDown()) {
+				LCD.clear();
+				RConsole.open();
+			}
+			Thread.sleep(1000);
+		}
+	}
 	public void exitProgram() {
 		exitProgram = true;
 	}
