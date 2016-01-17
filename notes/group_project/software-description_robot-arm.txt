@@ -1,9 +1,10 @@
 - 2 engines (for arm)
-- no sensors
+- 1 ultrasonic sensors
 
 steps for pickup:
-- initial position needs to have necessary distance to the object to be caried @ pickup station
-- drive till item is reached with fork (triggers push sensor at this position)
+- vehicle reached station (fork has to be lowered)
+- ultrasonic sensors detects wherever item is ready for pickup
+- wait until item is ready
 - elevate fork
 - turn arm by 180° degrees (pointing to delivery station)
 
