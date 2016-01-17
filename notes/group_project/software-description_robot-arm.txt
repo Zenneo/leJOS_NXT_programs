@@ -1,0 +1,13 @@
+- 2 engines (for arm)
+- no sensors
+
+steps for pickup:
+- initial position needs to have necessary distance to the object to be caried @ pickup station
+- drive till item is reached with fork (triggers push sensor at this position)
+- elevate fork
+- turn arm by 180° degrees (pointing to delivery station)
+
+steps for delivery:
+- when delivery station is reached and push sensor is triggered
+- lower fork until item is not carried by fork anymore
+- turn arm by 180° degrees (pointing to pickup station)
