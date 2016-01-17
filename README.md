@@ -20,5 +20,8 @@ Main file that contains the main loop and general logic.
 ######Movement.java
 Handles the vehicles movement and keeps track of what operations are currently processed.
 
+######Position.java
+Determines the position of the vehicle based on touch sensors.
+
 ######screenOutput.java
 Offers methods to output values to the LCD screen.
