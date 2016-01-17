@@ -12,6 +12,13 @@ public class Movement {
 	// 2 - moving forward
 	// 3 - moving backward
 	
+	/**
+	 * @return the vehicle_movement
+	 */
+	public int getVehicle_movement() {
+		return vehicle_movement;
+	}	
+	
 	/* --Engines-- */	
 	private NXTRegulatedMotor engine1;
 	private NXTRegulatedMotor engine2;
@@ -38,6 +45,17 @@ public class Movement {
 		}
 	}
 	
+	public void moveToStation(int station, int task) {
+		if (station == 1) {
+			// TODO Move vehicle to station
+		} else if (station == 2) {
+			// TODO Move vehicle to station
+		} else {
+			throw new UnsupportedOperationException();
+		}
+		
+	}
+	
 	public void stop() {
 		engine1.stop(true);
 		engine2.stop(true);
@@ -55,10 +73,5 @@ public class Movement {
 		engine2.backward();
 		vehicle_movement = 3;
 	}
-	
-	public int status() {
-		return vehicle_movement;
-	}
-	
 	
 }
