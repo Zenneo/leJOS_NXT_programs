@@ -23,17 +23,13 @@ public class Movement {
 	private Position pos;
 	
 	/* --Engines-- */	
-	private NXTRegulatedMotor engine1;
-	private NXTRegulatedMotor engine2;
+	private NXTRegulatedMotor engine;
 	//Engine speed
 	private int engine_speed = 100;
 	
-	public Movement(NXTRegulatedMotor motor1, NXTRegulatedMotor motor2, Position posi) {
-		engine1 = motor1;
-		engine1.setSpeed(engine_speed);
-		
-		engine2 = motor2;
-		engine2.setSpeed(engine_speed);
+	public Movement(NXTRegulatedMotor motor1, Position posi) {
+		engine = motor1;
+		engine.setSpeed(engine_speed);
 		
 		pos = posi;
 		
@@ -41,11 +37,11 @@ public class Movement {
 	}
 
 	public void checkMovement() {
-		if (!engine1.isMoving() && !engine2.isMoving()) {
+		if (!engine.isMoving() ) {
 			vehicle_movement = 1; // still
-		} else if (engine1.getRotationSpeed() > 0 || engine2.getRotationSpeed() > 0) { 
+		} else if (engine.getRotationSpeed() > 0 ) { 
 			vehicle_movement = 2; // moving forward
-		} else if (engine2.getRotationSpeed() < 0 || engine2.getRotationSpeed() < 0) {
+		} else if (engine.getRotationSpeed() < 0 ) {
 			vehicle_movement = 3; // moving backward
 		}
 	}
@@ -62,20 +58,17 @@ public class Movement {
 	}
 	
 	public void stop() {
-		engine1.stop(true);
-		engine2.stop(true);
+		engine.stop(true);
 		vehicle_movement = 1;
 	}
 	
 	public void forward() {
-		engine1.forward();
-		engine2.forward();
+		engine.forward();
 		vehicle_movement = 2;
 	}
 	
 	public void backward() {
-		engine1.backward();
-		engine2.backward();
+		engine.backward();
 		vehicle_movement = 3;
 	}
 	
