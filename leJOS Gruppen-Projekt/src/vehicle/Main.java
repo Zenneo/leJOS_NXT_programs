@@ -19,9 +19,8 @@ public class Main {
 	private Position Pos = new Position(touch1, touch2, touchOrientation);
 	
 	// engines
-	private NXTRegulatedMotor engine1 = Motor.A;
-	private NXTRegulatedMotor engine2 = Motor.B;
-	private Movement Move = new Movement(engine1, engine2, Pos);
+	private NXTRegulatedMotor engine = Motor.A;
+	private Movement Move = new Movement(engine, Pos);
 	
 		
 	/* --Status Codes-- */
