@@ -13,29 +13,29 @@ public class Main {
 	
 	/* --Connected Peripherals-- */
 	// sensors
-	private TouchSensor touch1 = new TouchSensor(SensorPort.S1);
-	private TouchSensor touch2 = new TouchSensor(SensorPort.S2);
+	private static TouchSensor touch1 = new TouchSensor(SensorPort.S1);
+	private static TouchSensor touch2 = new TouchSensor(SensorPort.S2);
 	private static boolean touchOrientation = true;
-	private Position Pos = new Position(touch1, touch2, touchOrientation);
+	private static Position Pos = new Position(touch1, touch2, touchOrientation);
 	
 	// engines
-	private NXTRegulatedMotor engine = Motor.A;
-	private Movement Move = new Movement(engine, Pos);
+	private static NXTRegulatedMotor engine = Motor.A;
+	private static Movement Move = new Movement(engine, Pos);
 	
 		
 	/* --Status Codes-- */
-	private int current_task = 0;
+	private static int current_task = 0;
 	// 0 - nothing
 	// 1 - move to station 1
 	// 2 - move to station 2
 	// 3 - wait
 	
 	// initiate program exit through exitProgram()
-	private boolean exitProgram = false;
+	private static boolean exitProgram = false;
 	
 	
 	
-	public void main() throws InterruptedException {
+	public static void main() throws InterruptedException {
 		// pre-program
 		enterDebuggingMode(); //enters debug mode if necessary
 		
@@ -107,13 +107,13 @@ public class Main {
 		}
 	}
 	
-	private void waitForTrigger() {
+	private static void waitForTrigger() {
 		// TODO Create a blocking function that releases when triggered
 		
 	}
 
 	// This function will activate RemoteDebugging after a prompt
-	private void enterDebuggingMode() throws InterruptedException {
+	private static void enterDebuggingMode() throws InterruptedException {
 		// print LCD prompt
 		LCD.clear();
 		LCD.drawString("Press orange to", 0, 0);
@@ -134,7 +134,7 @@ public class Main {
 			Thread.sleep(1000);
 		}
 	}
-	public void exitProgram() {
+	public static void exitProgram() {
 		exitProgram = true;
 	}
 }
