@@ -72,6 +72,14 @@ public class Main {
 				// Vehicle moving forward
 				case 2:
 					// TODO Define case when moving forward
+					if (Pos.getVehicle_position() == 1 || Pos.getVehicle_position() == 2) { // at station
+						current_task = 3;
+						Move.stop();
+					} else if (Pos.getVehicle_position() == 3){
+						break;
+					} else {
+						Pos.checkPosition();
+					}
 					break;
 				
 				// Vehicle moving backward
