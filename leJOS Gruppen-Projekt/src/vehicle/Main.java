@@ -108,8 +108,16 @@ public class Main {
 	}
 	
 	private static void waitForTrigger() {
-		// TODO Create a blocking function that releases when triggered
+		//DEBUG MSG
+		RConsole.println("Waiting for trigger... ");
 		
+		// TODO Create a blocking function that releases when triggered
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	// This function will activate RemoteDebugging after a prompt
