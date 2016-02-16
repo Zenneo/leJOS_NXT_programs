@@ -1,6 +1,7 @@
 package vehicle;
 
 import lejos.nxt.TouchSensor;
+import lejos.nxt.comm.RConsole;
 
 public class Position {
 	
@@ -15,6 +16,9 @@ public class Position {
 	 * @return the vehicle_position
 	 */
 	public int getVehicle_position() {
+		//DEBUG MSG
+		RConsole.println("STATUS: Current position: " + vehicle_position);
+		
 		return vehicle_position;
 	}
 	
@@ -40,6 +44,9 @@ public class Position {
 
 
 	public void checkPosition() {
+		//DEBUG MSG
+		RConsole.println("ACTION: Checking vehicle position...");
+		
 		if (touch1.isPressed() == touchOrientation && touch2.isPressed() != touchOrientation) { // station 1
 			vehicle_position = 1;
 		} else if (touch2.isPressed() == touchOrientation && touch1.isPressed() != touchOrientation) { //station 2
