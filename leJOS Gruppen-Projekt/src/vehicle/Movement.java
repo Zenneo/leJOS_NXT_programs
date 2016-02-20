@@ -17,25 +17,17 @@ public class Movement {
 	 * @return the vehicle_movement
 	 */
 	public int getVehicle_movement() {
-		//DEBUG MSG
-		RConsole.println("STATUS: Current movement: " + vehicle_movement);
-		
 		return vehicle_movement;
 	}	
-	
-	// vehicle position
-	private Position pos;
 	
 	/* --Engines-- */	
 	private NXTRegulatedMotor engine;
 	//Engine speed
 	private int engine_speed = 100;
 	
-	public Movement(NXTRegulatedMotor motor1, Position posi) {
+	public Movement(NXTRegulatedMotor motor1) {
 		engine = motor1;
 		engine.setSpeed(engine_speed);
-		
-		pos = posi;
 		
 		checkMovement();
 	}

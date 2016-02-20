@@ -20,7 +20,7 @@ public class Main {
 	
 	// engines
 	private static NXTRegulatedMotor engine = Motor.A;
-	private static Movement Move = new Movement(engine, Pos);
+	private static Movement Move = new Movement(engine);
 	
 		
 	/* --Status Codes-- */
@@ -29,17 +29,36 @@ public class Main {
 	// 1 - move to station 1
 	// 2 - move to station 2
 	// 3 - wait
+	/**
+	 * @return the current_task
+	 */
+	public static int getCurrent_task() {
+		return current_task;
+	}
+	/**
+	 * @param current_task the current_task to set
+	 */
+	private static void setCurrent_task(int current_task) {
+		Main.current_task = current_task;
+	}
+	
+	
+	// LCDthread object for drawing screen outputs
+	private static Thread LCDthreadobj = new LCDthread(Pos, Move);
 	
 	// initiate program exit through exitProgram()
 	private static boolean exitProgram = false;
 	
 	
+	public Main() throws InterruptedException {
+		enterDebuggingMode();
+		
+		LCDthreadobj.setPriority(Thread.NORM_PRIORITY - 2);
+		LCDthreadobj.start();
+	}
+	
 	
 	public static void main() throws InterruptedException {
-		// pre-program
-		enterDebuggingMode(); //enters debug mode if necessary
-		
-		
 		// Main Loop
 		while (!exitProgram) {
 			switch (Move.getVehicle_movement()) { // Check current vehicle status
@@ -47,16 +66,16 @@ public class Main {
 				// Vehicle still (no movement)
 				case 1:
 					if (Pos.getVehicle_position() == 1 || Pos.getVehicle_position() == 2) { // Vehicle at station
-						current_task = 3;
+						setCurrent_task(3); // wait
 						waitForTrigger();
 							
 						switch (Pos.getVehicle_position()) {
 							case 1:
-								current_task = 2; // move to station 2
+								setCurrent_task(2); // move to station 2
 								Move.moveToStation(2);
 								break;
 							case 2:
-								current_task = 1; // move to station 1
+								setCurrent_task(1); // move to station 1
 								Move.moveToStation(1);
 								break;
 						}
@@ -73,7 +92,7 @@ public class Main {
 				case 2:
 					// TODO Define case when moving forward
 					if (Pos.getVehicle_position() == 1 || Pos.getVehicle_position() == 2) { // at station
-						current_task = 3;
+						setCurrent_task(3);
 						Move.stop();
 					} else if (Pos.getVehicle_position() == 3){
 						break;
@@ -113,9 +132,8 @@ public class Main {
 		
 		// TODO Create a blocking function that releases when triggered
 		try {
-			Thread.sleep(1000);
+			Thread.sleep(5000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -144,5 +162,6 @@ public class Main {
 	}
 	public static void exitProgram() {
 		exitProgram = true;
+		LCDthreadobj.interrupt();
 	}
 }

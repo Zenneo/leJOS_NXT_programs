@@ -16,9 +16,6 @@ public class Position {
 	 * @return the vehicle_position
 	 */
 	public int getVehicle_position() {
-		//DEBUG MSG
-		RConsole.println("STATUS: Current position: " + vehicle_position);
-		
 		return vehicle_position;
 	}
 	
