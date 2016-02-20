@@ -23,5 +23,5 @@ Handles the vehicles movement and keeps track of what operations are currently p
 ######Position.java
 Determines the position of the vehicle based on touch sensors.
 
-######screenOutput.java
-Offers methods to output values to the LCD screen.
+######LCDthread.java
+A class expanding Thread that updates the current status on the LCD screen of the NXT.
