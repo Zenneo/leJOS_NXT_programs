@@ -34,7 +34,7 @@ public class Movement {
 
 	public void checkMovement() {
 		//DEBUG MSG
-		RConsole.println("ACTION: Checking vehicle movement... ");
+		//RConsole.println("ACTION: Checking vehicle movement... ");
 		
 		if (!engine.isMoving() ) {
 			vehicle_movement = 1; // still

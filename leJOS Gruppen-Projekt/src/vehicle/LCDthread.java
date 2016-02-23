@@ -37,7 +37,7 @@ public class LCDthread extends Thread {
 			
 			//sleep to allow more CPU time for main thread
 			try {
-				Thread.sleep(500);
+				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 				this.interrupt();

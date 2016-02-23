@@ -42,7 +42,7 @@ public class Position {
 
 	public void checkPosition() {
 		//DEBUG MSG
-		RConsole.println("ACTION: Checking vehicle position...");
+		//RConsole.println("ACTION: Checking vehicle position...");
 		
 		if (touch1.isPressed() == touchOrientation && touch2.isPressed() != touchOrientation) { // station 1
 			vehicle_position = 1;
