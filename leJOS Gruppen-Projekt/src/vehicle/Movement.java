@@ -23,11 +23,13 @@ public class Movement {
 	/* --Engines-- */
 	private NXTRegulatedMotor engine;
 	// Engine speed
-	private int engine_speed = 100;
+	private int engine_speed = 300;
+	private int engine_acceleration = 1000;
 
 	public Movement(NXTRegulatedMotor motor1) {
 		engine = motor1;
 		engine.setSpeed(engine_speed);
+		engine.setAcceleration(engine_acceleration);
 
 		checkMovement();
 	}
