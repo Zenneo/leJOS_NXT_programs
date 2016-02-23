@@ -50,9 +50,6 @@ public class Main {
 	// initiate program exit through exitProgram()
 	private static boolean exitProgram = false;
 
-	public Main() throws InterruptedException {
-	}
-
 	public static void main(String[] args) throws InterruptedException {
 		enterDebuggingMode();
 
@@ -65,9 +62,9 @@ public class Main {
 
 			// Vehicle still (no movement)
 			case 1:
-				if (Pos.getVehicle_position() == 1
-						|| Pos.getVehicle_position() == 2) { // Vehicle at
-																// station
+				if (Pos.getVehicle_position() == 1 || Pos.getVehicle_position() == 2) { // Vehicle
+																						// at
+																						// station
 					setCurrent_task(3); // wait
 					waitForTrigger();
 
@@ -85,8 +82,7 @@ public class Main {
 					Pos.checkPosition();
 				} else if (Pos.getVehicle_position() == 3) { // Vehicle between
 																// stations
-					// TODO Define what happens if vehicle is initially between
-					// stations
+					// NOP
 				} else {
 					throw new IllegalStateException();
 				}
@@ -94,12 +90,11 @@ public class Main {
 
 			// Vehicle moving forward
 			case 2:
-				// TODO Define case when moving forward
-				if (Pos.getVehicle_position() == 1
-						|| Pos.getVehicle_position() == 2) { // at station
+				if (Pos.getVehicle_position() == 1 || Pos.getVehicle_position() == 2) { // at
+																						// station
 					setCurrent_task(3);
 					Move.stop();
-				} else if (Pos.getVehicle_position() == 3) {
+				} else if (Pos.getVehicle_position() == 3) { // in between
 					break;
 				} else {
 					Pos.checkPosition();
@@ -108,9 +103,8 @@ public class Main {
 
 			// Vehicle moving backward
 			case 3:
-				// TODO Define case when moving backward
-				if (Pos.getVehicle_position() == 1
-						|| Pos.getVehicle_position() == 2) { // at station
+				if (Pos.getVehicle_position() == 1 || Pos.getVehicle_position() == 2) { // at
+																						// station
 					setCurrent_task(3);
 					Move.stop();
 				} else if (Pos.getVehicle_position() == 3) {
