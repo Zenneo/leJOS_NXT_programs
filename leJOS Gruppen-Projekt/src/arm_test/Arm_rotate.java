@@ -21,16 +21,16 @@ public class Arm_rotate {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		// initial setup
 		long pressed_since = System.currentTimeMillis();
-		
-		
-		//initial screen
+
+		// initial screen
 		LCD.drawString("Intervall:", 0, 0);
 		LCD.drawString("Confirm with", 0, 4);
 		LCD.drawString("orange.", 0, 5);
 		while (!Button.ENTER.isDown()) {
+			LCD.clear(1);
 			LCD.drawString("<< " + rotation_tick + " >>", 0, 1);
 			if (Button.LEFT.isUp() && Button.RIGHT.isUp()) {
 				pressed_since = 0;
@@ -43,14 +43,14 @@ public class Arm_rotate {
 				}
 			}
 		}
-		
-		//main screen
+
+		// main screen
 		LCD.clear();
 		LCD.drawString("Left =negative", 0, 0);
 		LCD.drawString("Right=positive", 0, 1);
 		LCD.drawString("Intervall: " + rotation_tick, 0, 2);
 		LCD.drawString("Current angle:", 0, 4);
-		LCD.drawInt(motor.getPosition(), 0, 5);	
+		LCD.drawInt(motor.getPosition(), 0, 5);
 
 		// main loop
 		while (Button.ESCAPE.isUp()) {
@@ -74,12 +74,15 @@ public class Arm_rotate {
 		} else if (Button.LEFT.isUp() && Button.RIGHT.isDown()) {
 			motor.rotate(rotation_tick);
 		}
+		LCD.clear(5);
 		LCD.drawInt(motor.getPosition(), 0, 5);
 	}
 
 	private static void change_tick() {
 		if (Button.LEFT.isDown() && Button.RIGHT.isUp()) {
-			rotation_tick--;
+			if (rotation_tick > 0) {
+				rotation_tick--;
+			}
 		} else if (Button.LEFT.isUp() && Button.RIGHT.isDown()) {
 			rotation_tick++;
 		}
