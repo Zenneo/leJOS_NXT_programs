@@ -149,7 +149,7 @@ public class Main {
 	private static void enterDebuggingMode() throws InterruptedException {
 		// print LCD prompt
 		LCD.clear();
-		Thread.sleep(200);
+		Thread.sleep(1000);
 		LCD.drawString("Press orange to", 0, 0);
 		LCD.drawString("connect console.", 0, 1);
 		LCD.drawString("Skip timer with", 0, 3);
