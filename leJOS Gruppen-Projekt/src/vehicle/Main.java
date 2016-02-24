@@ -12,15 +12,24 @@ import vehicle.Movement;
 public class Main {
 
 	/* --Connected Peripherals-- */
-	// sensors
+	// -sensors
 	private static TouchSensor touch1 = new TouchSensor(SensorPort.S1);
 	private static TouchSensor touch2 = new TouchSensor(SensorPort.S2);
-	private static boolean touchOrientation = true;
+	private static boolean touchOrientation = true; // see vehicle.position
 	private static Position Pos = new Position(touch1, touch2, touchOrientation);
 
-	// engines
-	private static NXTRegulatedMotor engine = Motor.A;
+	// -engines
+	private static NXTRegulatedMotor engine = Motor.A; // moves vehicle
 	private static Movement Move = new Movement(engine);
+	private static NXTRegulatedMotor arm1 = Motor.B; // Rotates arm
+	private static NXTRegulatedMotor arm2 = Motor.C; // Lifts arm
+	private static Arm Arms = new Arm(arm1, arm2);
+
+	/* --Logic vars-- */
+	// station that delivers package
+	private static int deliver_station = 1;
+	// station that receives package
+	private static int receive_station = 2;
 
 	/* --Status Codes-- */
 	private static int current_task = 0;
@@ -29,6 +38,8 @@ public class Main {
 	// 1 - move to station 1
 	// 2 - move to station 2
 	// 3 - wait
+	// 4 - load vehicle
+	// 5 - unload vehicle
 	/**
 	 * @return the current_task
 	 */
@@ -62,22 +73,41 @@ public class Main {
 
 			// Vehicle still (no movement)
 			case 1:
-				if (Pos.getVehicle_position() == 1 || Pos.getVehicle_position() == 2) { // Vehicle
-																						// at
-																						// station
-					setCurrent_task(3); // wait
-					waitForTrigger();
+				if (Pos.getVehicle_position() == 1) { // Vehicle at station 1
 
-					switch (Pos.getVehicle_position()) {
-					case 1:
-						setCurrent_task(2); // move to station 2
-						Move.moveToStation(2);
-						break;
-					case 2:
-						setCurrent_task(1); // move to station 1
-						Move.moveToStation(1);
-						break;
+					if (Pos.getVehicle_position() == deliver_station) {
+						// TODO check if package can be received
+						// TODO receive package from station
+						setCurrent_task(4);
+						waitForTrigger();
+					} else if (Pos.getVehicle_position() == receive_station) {
+						// TODO check if package can be delivered
+						// TODO deliver package to station
+						setCurrent_task(5);
+						waitForTrigger();
 					}
+
+					// move to station 2
+					setCurrent_task(2);
+					Move.moveToStation(2);
+
+				} else if (Pos.getVehicle_position() == 2) { // Vehicle at
+																// station 2
+
+					if (Pos.getVehicle_position() == deliver_station) {
+						// TODO check if package can be received
+						// TODO receive package from station
+						waitForTrigger();
+					} else if (Pos.getVehicle_position() == receive_station) {
+						// TODO check if package can be delivered
+						// TODO deliver package to station
+						waitForTrigger();
+					}
+
+					// move to station 1
+					setCurrent_task(1);
+					Move.moveToStation(1);
+
 				} else if (Pos.getVehicle_position() == 0) { // Position unknown
 					Pos.checkPosition();
 				} else if (Pos.getVehicle_position() == 3) { // Vehicle between

@@ -43,6 +43,10 @@ public class Movement {
 			vehicle_movement = 3; // moving backward
 		}
 	}
+	
+	public int getSpeed() {
+		return engine.getRotationSpeed();
+	}
 
 	public void moveToStation(int station) {
 		if (station == 1) {

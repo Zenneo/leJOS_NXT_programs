@@ -27,11 +27,14 @@ public class LCDthread extends Thread {
 
 			// line 2
 			LCD.drawString("Move: " + movementMsg(move.getVehicle_movement()), 0, 2);
-
+			
 			// line 3
-			LCD.drawString("Pos: " + posMsg(pos.getVehicle_position()), 0, 3);
+			LCD.drawString("Speed: " + move.getSpeed(), 0, 3);
 
 			// line 4
+			LCD.drawString("Pos: " + posMsg(pos.getVehicle_position()), 0, 4);
+
+			// line 5
 
 			// sleep to allow more CPU time for main thread
 			try {
@@ -60,6 +63,10 @@ public class LCDthread extends Thread {
 			return "To Stat2";
 		case 3:
 			return "Wait";
+		case 4:
+			return "Load pkg";
+		case 5:
+			return "Unload pkg";
 		default:
 			throw new UnsupportedOperationException();
 		}
