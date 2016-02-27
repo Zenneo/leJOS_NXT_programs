@@ -41,10 +41,13 @@ public class Arm_rotate {
 		switch (motor_port) {
 		case 1:
 			motor = Motor.A;
+			break;
 		case 2:
 			motor = Motor.B;
+			break;
 		case 3:
 			motor = Motor.C;
+			break;
 		}
 
 		// screen: ask for speed
