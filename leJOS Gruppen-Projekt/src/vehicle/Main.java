@@ -66,6 +66,9 @@ public class Main {
 
 		LCDthreadobj.start();
 
+		// vehicle initialization
+		Arms.rotateToInitial();
+
 		// Main Loop
 		while (!exitProgram) {
 			switch (Move.getVehicle_movement()) { // Check current vehicle

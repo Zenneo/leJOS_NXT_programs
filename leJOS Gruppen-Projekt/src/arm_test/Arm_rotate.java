@@ -57,7 +57,7 @@ public class Arm_rotate {
 		acceleration = LCDscreens.askForValue("Acceleration", 200, 25, wait_between_press, false);
 
 		// screen: ask for stalled error
-		stalled_error = LCDscreens.askForValue("Stall error", 1, 1, wait_between_press, false);
+		stalled_error = LCDscreens.askForValue("Stall error", 2, 1, wait_between_press, false);
 
 		// screen: ask for stalled time
 		stalled_time = LCDscreens.askForValue("Stall time", 50, 25, wait_between_press, false);
