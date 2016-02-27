@@ -1,5 +1,6 @@
 package vehicle;
 
+import lejos.nxt.Battery;
 import lejos.nxt.LCD;
 
 // This thread draws the current status onto the screen
@@ -27,7 +28,7 @@ public class LCDthread extends Thread {
 
 			// line 2
 			LCD.drawString("Move: " + movementMsg(move.getVehicle_movement()), 0, 2);
-			
+
 			// line 3
 			LCD.drawString("Speed: " + move.getSpeed(), 0, 3);
 
@@ -35,6 +36,11 @@ public class LCDthread extends Thread {
 			LCD.drawString("Pos: " + posMsg(pos.getVehicle_position()), 0, 4);
 
 			// line 5
+
+			// line 6
+
+			// line 7
+			LCD.drawString("Bat-Volt: " + Battery.getVoltage(), 0, 7);
 
 			// sleep to allow more CPU time for main thread
 			try {

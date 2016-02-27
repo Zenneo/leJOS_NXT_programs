@@ -24,7 +24,7 @@ public class Movement {
 	private NXTRegulatedMotor engine;
 	// Engine speed
 	private int engine_speed = 300;
-	private int engine_acceleration = 1000;
+	private int engine_acceleration = 200;
 
 	public Movement(NXTRegulatedMotor motor1) {
 		engine = motor1;
@@ -43,7 +43,7 @@ public class Movement {
 			vehicle_movement = 3; // moving backward
 		}
 	}
-	
+
 	public int getSpeed() {
 		return engine.getRotationSpeed();
 	}
