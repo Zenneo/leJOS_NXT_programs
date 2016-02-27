@@ -2,7 +2,6 @@ package arm_test;
 
 import lejos.nxt.Button;
 import lejos.nxt.LCD;
-import lejos.util.Delay;
 
 public class LCDscreens {
 
@@ -73,11 +72,11 @@ public class LCDscreens {
 		int confirm_result;
 		int option_count;
 		// count amount of options
-		if (option3 == "") {
+		if (option3 == null) {
 			option_count = 2;
-		} else if (option4 == "") {
+		} else if (option4 == null) {
 			option_count = 3;
-		} else if (option5 == "") {
+		} else if (option5 == null) {
 			option_count = 4;
 		} else {
 			option_count = 5;
@@ -152,15 +151,15 @@ public class LCDscreens {
 	}
 
 	public static int MultipleChoice(String option1, String option2, int initial) {
-		return MultipleChoice(option1, option2, "", "", "", initial);
+		return MultipleChoice(option1, option2, null, null, null, initial);
 	}
 
 	public static int MultipleChoice(String option1, String option2, String option3, int initial) {
-		return MultipleChoice(option1, option2, option3, "", "", initial);
+		return MultipleChoice(option1, option2, option3, null, null, initial);
 	}
 
 	public static int MultipleChoice(String option1, String option2, String option3, String option4, int initial) {
-		return MultipleChoice(option1, option2, option3, option4, "", initial);
+		return MultipleChoice(option1, option2, option3, option4, null, initial);
 	}
 
 	public static boolean askForConfirmation(String custom_msg1, String custom_msg2, String custom_msg3,
@@ -190,9 +189,9 @@ public class LCDscreens {
 
 			LCD.clear(6);
 			if (confirm_result) {
-				LCD.drawString("  >>Yes      No ", 0, 6);
+				LCD.drawString("  >>Yes      No ", 0, 7);
 			} else {
-				LCD.drawString("    Yes    >>No ", 0, 6);
+				LCD.drawString("    Yes    >>No ", 0, 7);
 			}
 
 			try {
