@@ -7,6 +7,7 @@ import lejos.nxt.NXTRegulatedMotor;
 import lejos.nxt.SensorPort;
 import lejos.nxt.TouchSensor;
 import lejos.nxt.comm.RConsole;
+import lejos.robotics.pathfinding.NodePathFinder;
 import vehicle.Movement;
 
 public class Main {
@@ -27,9 +28,9 @@ public class Main {
 
 	/* --Logic vars-- */
 	// station that delivers package
-	private static int deliver_station = 1;
+	private static int delivering_station = 1;
 	// station that receives package
-	private static int receive_station = 2;
+	private static int receiving_station = 2;
 
 	/* --Status Codes-- */
 	private static int current_task = 0;
@@ -64,6 +65,7 @@ public class Main {
 	public static void main(String[] args) throws InterruptedException {
 		enterDebuggingMode();
 
+		LCDthreadobj.setPriority(Thread.NORM_PRIORITY - 1);
 		LCDthreadobj.start();
 
 		// vehicle initialization
@@ -78,16 +80,18 @@ public class Main {
 			case 1:
 				if (Pos.getVehicle_position() == 1) { // Vehicle at station 1
 
-					if (Pos.getVehicle_position() == deliver_station) {
+					if (Pos.getVehicle_position() == delivering_station) {
 						// TODO check if package can be received
-						// TODO receive package from station
 						setCurrent_task(4);
 						waitForTrigger();
-					} else if (Pos.getVehicle_position() == receive_station) {
+						// receive package from station
+						Arms.receive_package();
+					} else if (Pos.getVehicle_position() == receiving_station) {
 						// TODO check if package can be delivered
-						// TODO deliver package to station
 						setCurrent_task(5);
 						waitForTrigger();
+						// deliver package to station
+						Arms.deliver_package();
 					}
 
 					// move to station 2
@@ -97,14 +101,18 @@ public class Main {
 				} else if (Pos.getVehicle_position() == 2) { // Vehicle at
 																// station 2
 
-					if (Pos.getVehicle_position() == deliver_station) {
+					if (Pos.getVehicle_position() == delivering_station) {
 						// TODO check if package can be received
-						// TODO receive package from station
+						setCurrent_task(4);
 						waitForTrigger();
-					} else if (Pos.getVehicle_position() == receive_station) {
+						// receive package from station
+						Arms.receive_package();
+					} else if (Pos.getVehicle_position() == receiving_station) {
 						// TODO check if package can be delivered
-						// TODO deliver package to station
+						setCurrent_task(5);
 						waitForTrigger();
+						// deliver package to station
+						Arms.deliver_package();
 					}
 
 					// move to station 1
@@ -116,6 +124,7 @@ public class Main {
 				} else if (Pos.getVehicle_position() == 3) { // Vehicle between
 																// stations
 					// NOP
+					
 				} else {
 					throw new IllegalStateException();
 				}
@@ -160,6 +169,9 @@ public class Main {
 				exitProgram();
 			}
 
+			// Reduce CPU load
+			Thread.sleep(50);
+			
 			// check for any changes
 			Pos.checkPosition();
 			Move.checkMovement();
