@@ -43,12 +43,14 @@ public class Arm {
 		case 1:
 			motor_arm.rotateTo(motor_arm_initialpos);
 			motor_rotate.rotateTo(motor_rotate_initialpos);
+			break;
 		case 2:
 			// load vehicle
 			// TODO determine correct angles
 			motor_arm.rotate(-40);
 			motor_rotate.rotate(90);
 			motor_arm.rotate(-5);
+			break;
 		case 3:
 			// unload vehicle
 			// TODO determine correct angles
@@ -56,6 +58,7 @@ public class Arm {
 			motor_arm.rotate(-50);
 			Delay.msDelay(500);
 			motor_rotate.rotate(-20);
+			break;
 		default:
 			throw new UnsupportedOperationException();
 		}

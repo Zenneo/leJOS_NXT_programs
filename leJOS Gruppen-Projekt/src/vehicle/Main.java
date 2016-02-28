@@ -7,7 +7,6 @@ import lejos.nxt.NXTRegulatedMotor;
 import lejos.nxt.SensorPort;
 import lejos.nxt.TouchSensor;
 import lejos.nxt.comm.RConsole;
-import lejos.robotics.pathfinding.NodePathFinder;
 import vehicle.Movement;
 
 public class Main {
@@ -78,46 +77,29 @@ public class Main {
 
 			// Vehicle still (no movement)
 			case 1:
-				if (Pos.getVehicle_position() == 1) { // Vehicle at station 1
-
-					if (Pos.getVehicle_position() == delivering_station) {
+				if (Pos.getVehicle_position() == delivering_station) { // Vehicle at delivering station
 						// TODO check if package can be received
-						setCurrent_task(4);
 						waitForTrigger();
+						
 						// receive package from station
-						Arms.receive_package();
-					} else if (Pos.getVehicle_position() == receiving_station) {
-						// TODO check if package can be delivered
-						setCurrent_task(5);
-						waitForTrigger();
-						// deliver package to station
-						Arms.deliver_package();
-					}
-
-					// move to station 2
-					setCurrent_task(2);
-					Move.moveToStation(2);
-
-				} else if (Pos.getVehicle_position() == 2) { // Vehicle at
-																// station 2
-
-					if (Pos.getVehicle_position() == delivering_station) {
-						// TODO check if package can be received
 						setCurrent_task(4);
-						waitForTrigger();
-						// receive package from station
 						Arms.receive_package();
-					} else if (Pos.getVehicle_position() == receiving_station) {
-						// TODO check if package can be delivered
-						setCurrent_task(5);
-						waitForTrigger();
-						// deliver package to station
-						Arms.deliver_package();
-					}
 
-					// move to station 1
-					setCurrent_task(1);
-					Move.moveToStation(1);
+					// move to receiving station
+					setCurrent_task(receiving_station);
+					Move.moveToStation(receiving_station);
+
+				} else if (Pos.getVehicle_position() == receiving_station) { // Vehicle at receiving station
+						// TODO check if package can be delivered
+						waitForTrigger();
+						
+						// deliver package to station
+						setCurrent_task(5);
+						Arms.deliver_package();
+
+					// move to delivering station
+					setCurrent_task(delivering_station);
+					Move.moveToStation(delivering_station);
 
 				} else if (Pos.getVehicle_position() == 0) { // Position unknown
 					Pos.checkPosition();
@@ -137,7 +119,7 @@ public class Main {
 					setCurrent_task(3);
 					Move.stop();
 				} else if (Pos.getVehicle_position() == 3) { // in between
-					break;
+					// NOP
 				} else {
 					Pos.checkPosition();
 				}
@@ -149,8 +131,8 @@ public class Main {
 																						// station
 					setCurrent_task(3);
 					Move.stop();
-				} else if (Pos.getVehicle_position() == 3) {
-					break;
+				} else if (Pos.getVehicle_position() == 3) { // in between
+					// NOP
 				} else {
 					Pos.checkPosition();
 				}
