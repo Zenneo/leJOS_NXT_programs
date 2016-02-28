@@ -1,5 +1,10 @@
 This project contains some leJOS scripts that we created for our school project. It is tested with leJOS 0.9.1beta3 running openJDK7.
 
+##Useful webpages
+* [leJOS-API Wildermann](https://www12.informatik.uni-erlangen.de/people/wildermann/schule/lejosapi/)
+
+* [Official leJOS-API](http://www.lejos.org/nxt/nxj/api/)
+
 ##Scripts:
 
 ###leJOS Gruppen-Projekt/src/
