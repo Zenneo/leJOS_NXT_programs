@@ -5,24 +5,47 @@ import lejos.nxt.LCD;
 
 public class LCDscreens {
 
-	public static int waitAfterConfirm = 1000; // wait in ms after screen
-												// confirmed
+	// wait in ms after screen confirmed
+	public static int waitAfterConfirm = 750;
+	// wait in ms after each while iteration
+	public static int waitAfterWhile = 50;
+
+	private final static String[] last_LCD_line_clean = { "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "" };
+	private static String[] last_LCD_line= last_LCD_line_clean;
+
+	private static void checkedDraw(String string, int x, int y) {
+		if (string != last_LCD_line[y]) {
+			LCD.drawString(string, x, y);
+			last_LCD_line[y] = string;
+		}
+	}
+	
+	private static void checkedClear(int y) {
+		LCD.clear(y);
+		last_LCD_line = last_LCD_line_clean;
+	}
+	private static void checkedClear() {
+		LCD.clear();
+		last_LCD_line = last_LCD_line_clean;
+	}
+	
+	
 
 	public static int askForValue(String name, int initial, int step, int waitBetween, boolean allowNegative) {
 		// maximum name length: 15
 
-		LCD.clear();
-		LCD.drawString(name + ":", 0, 0);
-		LCD.drawString("Confirm with", 0, 3);
-		LCD.drawString("orange.", 0, 4);
+		checkedClear();
+		checkedDraw(name + ":", 0, 0);
+		checkedDraw("Confirm with", 0, 3);
+		checkedDraw("orange.", 0, 4);
 
 		int value = initial;
 		long pressed_since = 0;
 		int cur_step = step;
 
 		while (!Button.ENTER.isDown()) {
-			LCD.clear(1);
-			LCD.drawString("<< " + value + " >>", 0, 1);
+			checkedClear(1);
+			checkedDraw(askVal_number(value), 0, 1);
 			if (Button.LEFT.isUp() && Button.RIGHT.isUp()) {
 				pressed_since = 0;
 			} else if (Button.LEFT.isDown() || Button.RIGHT.isDown()) {
@@ -48,7 +71,7 @@ public class LCDscreens {
 			}
 
 			try {
-				Thread.sleep(175);
+				Thread.sleep(waitAfterWhile);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -64,8 +87,27 @@ public class LCDscreens {
 		return value;
 	}
 
-	public static int MultipleChoice(String option1, String option2, String option3, String option4, String option5,
-			int initial) {
+	private static String askVal_number(int number) {
+		// 16 chars max
+
+		double length = (10 - (number + "").length()) / 2;
+		int w_length = (int) Math.ceil(length);
+
+		String whitespaces = repeatString(" ", w_length);
+
+		return " <<" + whitespaces + number + whitespaces + ">> ";
+	}
+
+	private static String repeatString(String s, int count) {
+		StringBuilder r = new StringBuilder();
+		for (int i = 0; i < count; i++) {
+			r.append(s);
+		}
+		return r.toString();
+	}
+
+	public static int MultipleChoice(String msg1, String option1, String option2, String option3, String option4,
+			String option5, int initial) {
 		// maximum option string length: 14
 
 		boolean button_down = false;
@@ -88,8 +130,8 @@ public class LCDscreens {
 			confirm_result = initial;
 		}
 
-		LCD.clear();
-		LCD.drawString("Please choose:", 0, 0);
+		checkedClear();
+		checkedDraw(msg1, 0, 0);
 		while (Button.ENTER.isUp()) {
 			if (Button.LEFT.isDown() && Button.RIGHT.isUp()) {
 				if (!button_down) {
@@ -115,20 +157,27 @@ public class LCDscreens {
 
 			// draw options
 			// option1
-			LCD.drawString(mchoice_line(option1, confirm_result == 1), 0, 1);
+			checkedDraw(mchoice_line(option1, confirm_result == 1), 0, 1);
 			// option2
-			LCD.drawString(mchoice_line(option2, confirm_result == 2), 0, 2);
+			checkedDraw(mchoice_line(option2, confirm_result == 2), 0, 2);
 			if (option_count > 2) {
 				// option3
-				LCD.drawString(mchoice_line(option3, confirm_result == 3), 0, 3);
+				checkedDraw(mchoice_line(option3, confirm_result == 3), 0, 3);
 				if (option_count > 3) {
 					// option4
-					LCD.drawString(mchoice_line(option4, confirm_result == 4), 0, 4);
+					checkedDraw(mchoice_line(option4, confirm_result == 4), 0, 4);
 					if (option_count > 4) {
 						// option5
-						LCD.drawString(mchoice_line(option5, confirm_result == 5), 0, 5);
+						checkedDraw(mchoice_line(option5, confirm_result == 5), 0, 5);
 					}
 				}
+			}
+
+			try {
+				Thread.sleep(waitAfterWhile);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 
 		}
@@ -150,16 +199,17 @@ public class LCDscreens {
 		}
 	}
 
-	public static int MultipleChoice(String option1, String option2, int initial) {
-		return MultipleChoice(option1, option2, null, null, null, initial);
+	public static int MultipleChoice(String msg1, String option1, String option2, int initial) {
+		return MultipleChoice(msg1, option1, option2, null, null, null, initial);
 	}
 
-	public static int MultipleChoice(String option1, String option2, String option3, int initial) {
-		return MultipleChoice(option1, option2, option3, null, null, initial);
+	public static int MultipleChoice(String msg1, String option1, String option2, String option3, int initial) {
+		return MultipleChoice(msg1, option1, option2, option3, null, null, initial);
 	}
 
-	public static int MultipleChoice(String option1, String option2, String option3, String option4, int initial) {
-		return MultipleChoice(option1, option2, option3, option4, null, initial);
+	public static int MultipleChoice(String msg1, String option1, String option2, String option3, String option4,
+			int initial) {
+		return MultipleChoice(msg1, option1, option2, option3, option4, null, initial);
 	}
 
 	public static boolean askForConfirmation(String custom_msg1, String custom_msg2, String custom_msg3,
@@ -169,13 +219,13 @@ public class LCDscreens {
 		boolean confirm_result = initial;
 		boolean button_down = false;
 
-		LCD.clear();
-		LCD.drawString(custom_msg1, 0, 0);
-		LCD.drawString(custom_msg2, 0, 1);
-		LCD.drawString(custom_msg3, 0, 2);
-		LCD.drawString(custom_msg4, 0, 3);
+		checkedClear();
+		checkedDraw(custom_msg1, 0, 0);
+		checkedDraw(custom_msg2, 0, 1);
+		checkedDraw(custom_msg3, 0, 2);
+		checkedDraw(custom_msg4, 0, 3);
 
-		LCD.drawString("Confirm?", 0, 5);
+		checkedDraw("Confirm?", 0, 5);
 		while (Button.ENTER.isUp()) {
 			if (Button.LEFT.isDown() || Button.RIGHT.isDown()) {
 				if (!button_down) {
@@ -187,15 +237,15 @@ public class LCDscreens {
 				button_down = false;
 			}
 
-			LCD.clear(6);
+			checkedClear(6);
 			if (confirm_result) {
-				LCD.drawString("  >>Yes      No ", 0, 7);
+				checkedDraw("  >>Yes      No ", 0, 7);
 			} else {
-				LCD.drawString("    Yes    >>No ", 0, 7);
+				checkedDraw("    Yes    >>No ", 0, 7);
 			}
 
 			try {
-				Thread.sleep(175);
+				Thread.sleep(waitAfterWhile);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

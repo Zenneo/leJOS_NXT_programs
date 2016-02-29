@@ -36,15 +36,11 @@ public class Arm {
 		RConsole.println("TASK: Rotate arms to initial position");
 
 		motor_rotate.rotate(-360);
-		if (motor_rotate.isStalled()) {
-			motor_rotate.rotate(2);
-		}
+		motor_rotate.rotate(2);
 		motor_rotate_initialpos = motor_rotate.getPosition();
 
 		motor_arm.rotate(-360);
-		if (motor_arm.isStalled()) {
-			motor_rotate.rotate(2);
-		}
+		motor_rotate.rotate(2);
 		motor_arm_initialpos = motor_arm.getPosition();
 	}
 
@@ -61,13 +57,13 @@ public class Arm {
 		rotateToPos(3);
 		rotateToPos(1);
 	}
-	
+
 	public int mrotate_pos() {
-		return motor_arm.getTachoCount();
-	}
-	
-	public int marm_pos() {
 		return motor_rotate.getTachoCount();
+	}
+
+	public int marm_pos() {
+		return motor_arm.getTachoCount();
 	}
 
 	private void rotateToPos(int posi) {

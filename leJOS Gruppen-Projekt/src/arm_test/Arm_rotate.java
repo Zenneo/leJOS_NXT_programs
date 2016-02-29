@@ -37,17 +37,23 @@ public class Arm_rotate {
 		}
 
 		// screen: ask for motor port
-		int motor_port = LCDscreens.MultipleChoice("Motor A", "Motor B", "Motor C", 2);
+		char motor_port_char;
+		int motor_port = LCDscreens.MultipleChoice("Choose motor:", "Port A", "Port B", "Port C", 2);
 		switch (motor_port) {
 		case 1:
 			motor = Motor.A;
+			motor_port_char = 'A';
 			break;
 		case 2:
 			motor = Motor.B;
+			motor_port_char = 'B';
 			break;
 		case 3:
 			motor = Motor.C;
+			motor_port_char = 'C';
 			break;
+		default:
+			throw new IllegalArgumentException();
 		}
 
 		// screen: ask for speed
@@ -76,6 +82,7 @@ public class Arm_rotate {
 			}
 
 			LCD.clear();
+			LCD.drawString("--- Motor " + motor_port_char + " ---", 0, 0);
 			LCD.drawString("Speed: " + speed, 0, 1);
 			LCD.drawString("Accel: " + acceleration, 0, 2);
 			LCD.drawString("Cur angle: " + motor.getPosition(), 0, 3);
