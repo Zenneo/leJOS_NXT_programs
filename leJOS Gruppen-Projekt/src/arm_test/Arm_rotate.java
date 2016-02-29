@@ -85,7 +85,7 @@ public class Arm_rotate {
 			LCD.drawString("--- Motor " + motor_port_char + " ---", 0, 0);
 			LCD.drawString("Speed: " + speed, 0, 1);
 			LCD.drawString("Accel: " + acceleration, 0, 2);
-			LCD.drawString("Cur angle: " + motor.getPosition(), 0, 3);
+			LCD.drawString("Cur angle: " + motor.getTachoCount(), 0, 3);
 			LCD.drawString("Stalled: " + motor.isStalled(), 0, 4);
 
 			if (motor.getPosition() == rotateTarget || motor.isStalled()) {

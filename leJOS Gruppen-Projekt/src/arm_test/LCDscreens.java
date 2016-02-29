@@ -13,18 +13,18 @@ public class LCDscreens {
 	private final static String[] last_LCD_line_clean = { "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "" };
 	private static String[] last_LCD_line= last_LCD_line_clean;
 
-	private static void checkedDraw(String string, int x, int y) {
+	public static void checkedDraw(String string, int x, int y) {
 		if (string != last_LCD_line[y]) {
 			LCD.drawString(string, x, y);
 			last_LCD_line[y] = string;
 		}
 	}
 	
-	private static void checkedClear(int y) {
+	public static void checkedClear(int y) {
 		LCD.clear(y);
 		last_LCD_line = last_LCD_line_clean;
 	}
-	private static void checkedClear() {
+	public static void checkedClear() {
 		LCD.clear();
 		last_LCD_line = last_LCD_line_clean;
 	}
