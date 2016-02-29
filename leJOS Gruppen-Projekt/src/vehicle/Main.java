@@ -34,7 +34,7 @@ public class Main {
 	/* --Status Codes-- */
 	private static int current_task = 0;
 
-	// 0 - nothing
+	// 0 - initialize
 	// 1 - move to station 1
 	// 2 - move to station 2
 	// 3 - wait
@@ -56,7 +56,7 @@ public class Main {
 	}
 
 	// LCDthread object for drawing screen outputs
-	private static Thread LCDthreadobj = new LCDthread(Pos, Move);
+	private static Thread LCDthreadobj = new LCDthread(Pos, Move, Arms);
 
 	// initiate program exit through exitProgram()
 	private static boolean exitProgram = false;
@@ -77,25 +77,28 @@ public class Main {
 
 			// Vehicle still (no movement)
 			case 1:
-				if (Pos.getVehicle_position() == delivering_station) { // Vehicle at delivering station
-						// TODO check if package can be received
-						waitForTrigger();
-						
-						// receive package from station
-						setCurrent_task(4);
-						Arms.receive_package();
+				// Vehicle at delivering station
+				if (Pos.getVehicle_position() == delivering_station) {
+					// TODO check if package can be received
+					waitForTrigger();
+
+					// receive package from station
+					setCurrent_task(4);
+					Arms.receive_package();
 
 					// move to receiving station
 					setCurrent_task(receiving_station);
 					Move.moveToStation(receiving_station);
 
-				} else if (Pos.getVehicle_position() == receiving_station) { // Vehicle at receiving station
-						// TODO check if package can be delivered
-						waitForTrigger();
-						
-						// deliver package to station
-						setCurrent_task(5);
-						Arms.deliver_package();
+				}
+				// Vehicle at delivering station
+				else if (Pos.getVehicle_position() == receiving_station) {
+					// TODO check if package can be delivered
+					waitForTrigger();
+
+					// deliver package to station
+					setCurrent_task(5);
+					Arms.deliver_package();
 
 					// move to delivering station
 					setCurrent_task(delivering_station);
@@ -106,7 +109,7 @@ public class Main {
 				} else if (Pos.getVehicle_position() == 3) { // Vehicle between
 																// stations
 					// NOP
-					
+
 				} else {
 					throw new IllegalStateException();
 				}
@@ -153,7 +156,7 @@ public class Main {
 
 			// Reduce CPU load
 			Thread.sleep(50);
-			
+
 			// check for any changes
 			Pos.checkPosition();
 			Move.checkMovement();

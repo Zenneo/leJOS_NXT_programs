@@ -8,10 +8,12 @@ public class LCDthread extends Thread {
 
 	private Position pos;
 	private Movement move;
+	private Arm arm;
 
-	public LCDthread(Position posi, Movement moves) {
+	public LCDthread(Position posi, Movement moves, Arm arms) {
 		pos = posi;
 		move = moves;
+		arm = arms;
 	}
 
 	public void run() {
@@ -27,17 +29,19 @@ public class LCDthread extends Thread {
 			LCD.drawString("Tsk: " + taskMsg(Main.getCurrent_task()), 0, 1);
 
 			// line 2
-			LCD.drawString("Move: " + movementMsg(move.getVehicle_movement()), 0, 2);
+			LCD.drawString("Pos: " + posMsg(pos.getVehicle_position()), 0, 2);
 
 			// line 3
-			LCD.drawString("Speed: " + move.getSpeed(), 0, 3);
+			LCD.drawString("Move: " + movementMsg(move.getVehicle_movement()), 0, 3);
 
 			// line 4
-			LCD.drawString("Pos: " + posMsg(pos.getVehicle_position()), 0, 4);
+			LCD.drawString("Speed: " + move.getSpeed(), 0, 4);
 
 			// line 5
+			LCD.drawString("---   Arms   ---", 0, 5);
 
 			// line 6
+			LCD.drawString("A1:" + arm.mrotate_pos() + " A2:" + arm.marm_pos(), 0, 6);
 
 			// line 7
 			LCD.drawString("Bat-Volt: " + Battery.getVoltage(), 0, 7);
@@ -62,7 +66,7 @@ public class LCDthread extends Thread {
 
 		switch (taskint) {
 		case 0:
-			return "Nothing";
+			return "Initialize";
 		case 1:
 			return "To Stat1";
 		case 2:
