@@ -5,11 +5,9 @@ import lejos.nxt.Button;
 import lejos.nxt.LCD;
 import lejos.nxt.Motor;
 import lejos.nxt.NXTRegulatedMotor;
+import vehicle.ExitListener;
 
 public class Arm_rotate {
-
-	// exit thread
-	private static Thread exitThread = new vehicle.EXITthread(2);
 
 	// motors
 	private static NXTRegulatedMotor motor;
@@ -24,9 +22,8 @@ public class Arm_rotate {
 	private static int rotateTarget = 0;
 
 	public static void main(String[] args) {
-
-		// exit thread
-		exitThread.start();
+		// set up exit listener
+		Button.ESCAPE.addButtonListener(new ExitListener());
 
 		// initial notice
 		LCD.drawString("--General info--", 0, 0);
@@ -45,8 +42,7 @@ public class Arm_rotate {
 
 		// screen: ask for motor port
 		char motor_port_char;
-		int motor_port = LCDscreens.MultipleChoice("Choose motor:", "Port A",
-				"Port B", "Port C", 2);
+		int motor_port = LCDscreens.MultipleChoice("Choose motor:", "Port A", "Port B", "Port C", 2);
 		switch (motor_port) {
 		case 1:
 			motor = Motor.A;
@@ -65,33 +61,24 @@ public class Arm_rotate {
 		}
 
 		// screen: ask for speed
-		speed = LCDscreens.askForValue("Speed", 75, 5, wait_between_press,
-				false);
+		speed = LCDscreens.askForValue("Speed", 75, 5, wait_between_press, false);
 
 		// screen: ask for acceleration
-		acceleration = LCDscreens.askForValue("Acceleration", 200, 25,
-				wait_between_press, false);
+		acceleration = LCDscreens.askForValue("Acceleration", 200, 25, wait_between_press, false);
 
 		// screen: ask for stalled error
-		stalled_error = LCDscreens.askForValue("Stall error", 2, 1,
-				wait_between_press, false);
+		stalled_error = LCDscreens.askForValue("Stall error", 2, 1, wait_between_press, false);
 
 		// screen: ask for stalled time
-		stalled_time = LCDscreens.askForValue("Stall time", 50, 25,
-				wait_between_press, false);
+		stalled_time = LCDscreens.askForValue("Stall time", 50, 25, wait_between_press, false);
 
 		// set determined values
 		motor.setSpeed(speed);
 		motor.setAcceleration(acceleration);
 		motor.setStallThreshold(stalled_error, stalled_time);
 
-		boolean exit_program = false;
-
 		// main loop
-		while (!exit_program) {
-			if (Button.ESCAPE.isDown()) {
-				exit_program = true;
-			}
+		while (true) {
 
 			LCD.clear();
 			LCD.drawString("--- Motor " + motor_port_char + " ---", 0, 0);
@@ -108,17 +95,15 @@ public class Arm_rotate {
 					e.printStackTrace();
 				}
 
-				if (LCDscreens.askForConfirmation("Enter a target", "angle?",
-						true)) {
+				if (LCDscreens.askForConfirmation("Enter a target", "angle?", true)) {
 					// dividing by 2 and multiplying by two ensures an even
 					// number
-					rotateTarget = LCDscreens.askForValue("Tar angle",
-							motor.getPosition() / 2 * 2, 2, wait_between_press,
-							true);
+					rotateTarget = LCDscreens.askForValue("Tar angle", motor.getPosition() / 2 * 2, 2,
+							wait_between_press, true);
 					motor.rotateTo(rotateTarget, true);
 				} else {
-					if (LCDscreens.askForConfirmation("Exit program", false)) {
-						exit_program = true;
+					if (LCDscreens.askForConfirmation("Exit program", true)) {
+						System.exit(0);
 					}
 				}
 
@@ -133,10 +118,6 @@ public class Arm_rotate {
 
 		}
 
-	}
-
-	public static void exitProgram() throws InterruptedException {
-		Thread.currentThread().interrupt();
 	}
 
 }

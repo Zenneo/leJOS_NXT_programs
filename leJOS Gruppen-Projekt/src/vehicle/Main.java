@@ -57,14 +57,16 @@ public class Main {
 
 	// LCDthread object for drawing screen outputs
 	private static Thread LCDthreadobj = new LCDthread(Pos, Move, Arms);
-	private static Thread EXITthreadobj = new EXITthread(1);
 
 	public static void main(String[] args) throws InterruptedException {
+		// set up exit listener
+		Button.ESCAPE.addButtonListener(new ExitListener());
+
+		// ask for debugging mode
 		enterDebuggingMode();
 
 		LCDthreadobj.setPriority(Thread.NORM_PRIORITY - 1);
 		LCDthreadobj.start();
-		EXITthreadobj.start();
 
 		// vehicle initialization
 		Arms.rotateToInitial();
@@ -116,9 +118,8 @@ public class Main {
 
 			// Vehicle moving forward
 			case 2:
-				if (Pos.getVehicle_position() == 1
-						|| Pos.getVehicle_position() == 2) { // at
-																// station
+				if (Pos.getVehicle_position() == 1 || Pos.getVehicle_position() == 2) { // at
+																						// station
 					setCurrent_task(3);
 					Move.stop();
 				} else if (Pos.getVehicle_position() == 3) { // in between
@@ -130,9 +131,8 @@ public class Main {
 
 			// Vehicle moving backward
 			case 3:
-				if (Pos.getVehicle_position() == 1
-						|| Pos.getVehicle_position() == 2) { // at
-																// station
+				if (Pos.getVehicle_position() == 1 || Pos.getVehicle_position() == 2) { // at
+																						// station
 					setCurrent_task(3);
 					Move.stop();
 				} else if (Pos.getVehicle_position() == 3) { // in between
@@ -148,11 +148,6 @@ public class Main {
 				break;
 			default:
 				throw new UnsupportedOperationException();
-			}
-
-			// Exit if back button is pressed
-			if (Button.ESCAPE.isDown()) {
-				exitProgram();
 			}
 
 			// Reduce CPU load
@@ -200,10 +195,4 @@ public class Main {
 		}
 	}
 
-	public static void exitProgram() {
-		LCDthreadobj.interrupt();
-		RConsole.println("Exiting program...");
-		Thread.currentThread().interrupt();
-		RConsole.close();
-	}
 }

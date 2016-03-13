@@ -7,7 +7,7 @@ public class LCDthread extends Thread {
 
 	// vars
 	public int refreshRate = 500;
-	
+
 	private Position pos;
 	private Movement move;
 	private Arm arm;
