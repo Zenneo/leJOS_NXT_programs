@@ -6,7 +6,7 @@ import lejos.nxt.Battery;
 public class LCDthread extends Thread {
 
 	// vars
-	public int refreshRate = 500;
+	public int refreshRate = 500; // ms between each value update
 
 	private Position pos;
 	private Movement move;
@@ -19,10 +19,10 @@ public class LCDthread extends Thread {
 	}
 
 	public void run() {
+		arm_test.LCDscreens.checkedClear();
 
 		// Main loop
-		while (!Thread.currentThread().isInterrupted()) {
-			arm_test.LCDscreens.checkedClear();
+		while (true) {
 
 			// line 0
 			arm_test.LCDscreens.checkedDraw("--- Vehicle  ---", 0, 0);
@@ -56,10 +56,6 @@ public class LCDthread extends Thread {
 				this.interrupt();
 			}
 		}
-
-		// Draw exit message
-		arm_test.LCDscreens.checkedClear();
-		arm_test.LCDscreens.checkedDraw("Exit", 0, 0);
 
 	}
 

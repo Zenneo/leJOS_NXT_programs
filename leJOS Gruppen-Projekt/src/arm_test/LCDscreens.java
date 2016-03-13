@@ -10,45 +10,46 @@ public class LCDscreens {
 	// wait in ms after each while iteration
 	public static int waitAfterWhile = 50;
 
-	private final static String[] last_LCD_line_clean = { "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "" };
-	private static String[] last_LCD_line= last_LCD_line_clean;
+	private final static String[] last_LCD_line_clean = { "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",
+			"" };
+	private static String[] last_LCD_line = last_LCD_line_clean;
 
 	public static void checkedDraw(String string, int x, int y) {
 		if (string != last_LCD_line[y]) {
+			LCD.clear(y);
 			LCD.drawString(string, x, y);
 			last_LCD_line[y] = string;
 		}
 	}
-	
+
 	public static void checkedClear(int y) {
 		LCD.clear(y);
-		last_LCD_line = last_LCD_line_clean;
+		last_LCD_line[y] = "";
 	}
+
 	public static void checkedClear() {
 		LCD.clear();
 		last_LCD_line = last_LCD_line_clean;
 	}
-	
-	
 
 	public static int askForValue(String name, int initial, int step, int waitBetween, boolean allowNegative) {
 		// maximum name length: 15
-
-		checkedClear();
-		checkedDraw(name + ":", 0, 0);
-		checkedDraw("Confirm with", 0, 3);
-		checkedDraw("orange.", 0, 4);
 
 		int value = initial;
 		long pressed_since = 0;
 		int cur_step = step;
 
+		checkedClear();
+		checkedDraw(name + ":", 0, 0);
+		checkedDraw(askVal_number(value), 0, 1);
+		checkedDraw("Confirm with", 0, 3);
+		checkedDraw("orange.", 0, 4);
+
 		while (!Button.ENTER.isDown()) {
-			checkedClear(1);
-			checkedDraw(askVal_number(value), 0, 1);
 			if (Button.LEFT.isUp() && Button.RIGHT.isUp()) {
 				pressed_since = 0;
 			} else if (Button.LEFT.isDown() || Button.RIGHT.isDown()) {
+				checkedDraw(askVal_number(value), 0, 1);
 				if (pressed_since == 0) {
 					pressed_since = System.currentTimeMillis();
 					cur_step = step;
@@ -68,6 +69,11 @@ public class LCDscreens {
 						cur_step = step * 4;
 					}
 				}
+
+				// check if value was set accidently set to negative
+				if (!allowNegative && value < 0) {
+					value = 0;
+				}
 			}
 
 			try {
@@ -77,6 +83,8 @@ public class LCDscreens {
 				e.printStackTrace();
 			}
 		}
+
+		checkedClear();
 
 		try {
 			Thread.sleep(waitAfterConfirm);
@@ -88,14 +96,23 @@ public class LCDscreens {
 	}
 
 	private static String askVal_number(int number) {
+		String whitespace1;
+		String whitespace2;
+
 		// 16 chars max
 
-		double length = (10 - (number + "").length()) / 2;
-		int w_length = (int) Math.ceil(length);
+		double length = (10 - (number + "").length()) / 2.0;
+		double ceil_length = Math.floor(length);
 
-		String whitespaces = repeatString(" ", w_length);
+		if (length == ceil_length) {
+			whitespace1 = repeatString(" ", (int) length);
+			whitespace2 = whitespace1;
+		} else {
+			whitespace1 = repeatString(" ", (int) length + 1);
+			whitespace2 = repeatString(" ", (int) length);
+		}
 
-		return " <<" + whitespaces + number + whitespaces + ">> ";
+		return " <<" + whitespace1 + number + whitespace2 + ">> ";
 	}
 
 	private static String repeatString(String s, int count) {
@@ -107,7 +124,7 @@ public class LCDscreens {
 	}
 
 	public static int MultipleChoice(String msg1, String option1, String option2, String option3, String option4,
-			String option5, int initial) {
+			String option5, String option6, String option7, int initial) {
 		// maximum option string length: 14
 
 		boolean button_down = false;
@@ -120,8 +137,12 @@ public class LCDscreens {
 			option_count = 3;
 		} else if (option5 == null) {
 			option_count = 4;
-		} else {
+		} else if (option6 == null) {
 			option_count = 5;
+		} else if (option7 == null) {
+			option_count = 6;
+		} else {
+			option_count = 7;
 		}
 
 		if (initial < 1 || initial > option_count) {
@@ -169,6 +190,14 @@ public class LCDscreens {
 					if (option_count > 4) {
 						// option5
 						checkedDraw(mchoice_line(option5, confirm_result == 5), 0, 5);
+						if (option_count > 5) {
+							// option 6
+							checkedDraw(mchoice_line(option6, confirm_result == 6), 0, 6);
+							if (option_count > 6) {
+								// option 7
+								checkedDraw(mchoice_line(option7, confirm_result == 7), 0, 7);
+							}
+						}
 					}
 				}
 			}
@@ -181,6 +210,8 @@ public class LCDscreens {
 			}
 
 		}
+
+		checkedClear();
 
 		try {
 			Thread.sleep(waitAfterConfirm);
@@ -200,16 +231,26 @@ public class LCDscreens {
 	}
 
 	public static int MultipleChoice(String msg1, String option1, String option2, int initial) {
-		return MultipleChoice(msg1, option1, option2, null, null, null, initial);
+		return MultipleChoice(msg1, option1, option2, null, null, null, null, null, initial);
 	}
 
 	public static int MultipleChoice(String msg1, String option1, String option2, String option3, int initial) {
-		return MultipleChoice(msg1, option1, option2, option3, null, null, initial);
+		return MultipleChoice(msg1, option1, option2, option3, null, null, null, null, initial);
 	}
 
 	public static int MultipleChoice(String msg1, String option1, String option2, String option3, String option4,
 			int initial) {
-		return MultipleChoice(msg1, option1, option2, option3, option4, null, initial);
+		return MultipleChoice(msg1, option1, option2, option3, option4, null, null, null, initial);
+	}
+
+	public static int MultipleChoice(String msg1, String option1, String option2, String option3, String option4,
+			String option5, int initial) {
+		return MultipleChoice(msg1, option1, option2, option3, option4, option5, null, null, initial);
+	}
+
+	public static int MultipleChoice(String msg1, String option1, String option2, String option3, String option4,
+			String option5, String option6, int initial) {
+		return MultipleChoice(msg1, option1, option2, option3, option4, option5, option6, null, initial);
 	}
 
 	public static boolean askForConfirmation(String custom_msg1, String custom_msg2, String custom_msg3,
@@ -237,7 +278,6 @@ public class LCDscreens {
 				button_down = false;
 			}
 
-			checkedClear(6);
 			if (confirm_result) {
 				checkedDraw("  >>Yes      No ", 0, 7);
 			} else {
@@ -251,6 +291,8 @@ public class LCDscreens {
 				e.printStackTrace();
 			}
 		}
+
+		checkedClear();
 
 		try {
 			Thread.sleep(waitAfterConfirm);
