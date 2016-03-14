@@ -1,11 +1,17 @@
 This project contains some leJOS scripts that we created for our school project. It is tested with leJOS 0.9.1beta3 running openJDK7.
 
+#Download stable release
+- [Arm_rotate-v1_0.nxj](https://github.com/Zenneo/leJOS_NXT_programs/raw/master/stable_releases/Arm_rotate-v1_0.nxj)
+- [Vehicle-v1_0.nxj](https://github.com/Zenneo/leJOS_NXT_programs/raw/master/stable_releases/Vehicle-v1_0.nxj)
+
+[Version history](https://github.com/Zenneo/leJOS_NXT_programs/blob/master/stable_releases/version_history.md)
+
 ##Useful webpages
 * [leJOS-API Wildermann](https://www12.informatik.uni-erlangen.de/people/wildermann/schule/lejosapi/)
 
 * [Official leJOS-API](http://www.lejos.org/nxt/nxj/api/)
 
-##Scripts:
+#Scripts:
 
 ###leJOS Gruppen-Projekt/src/
 Contains a group project where multiple NXTs form a small production facilty with a transport and storage system for sweets. This folder contains only one group's code.
