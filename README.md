@@ -1,7 +1,7 @@
 This project contains some leJOS scripts that we created for our school project. It is tested with leJOS 0.9.1beta3 running openJDK7.
 
 #Download stable release
-- [Arm_rotate-v1_0.nxj](https://github.com/Zenneo/leJOS_NXT_programs/raw/master/stable_releases/Arm_rotate-v1_0.nxj)
+- [Arm_rotate-v1_1.nxj](https://github.com/Zenneo/leJOS_NXT_programs/raw/master/stable_releases/Arm_rotate-v1_1.nxj)
 - [Vehicle-v1_0.nxj](https://github.com/Zenneo/leJOS_NXT_programs/raw/master/stable_releases/Vehicle-v1_0.nxj)
 
 [Version history](https://github.com/Zenneo/leJOS_NXT_programs/blob/master/stable_releases/version_history.md)
