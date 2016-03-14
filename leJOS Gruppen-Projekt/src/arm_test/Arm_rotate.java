@@ -176,11 +176,25 @@ public class Arm_rotate {
 		LCDscreens.checkedDraw("Speed: " + motor.getSpeed(), 0, 1);
 		LCDscreens.checkedDraw("Accel: " + motor.getAcceleration(), 0, 2);
 		LCDscreens.checkedDraw("Cur angle: " + motor.getTachoCount(), 0, 3);
-		LCDscreens.checkedDraw("Stalled: " + motor.isStalled(), 0, 4);
+		LCDscreens.checkedDraw("Stalled: " + motor.isStalled(), 0, 6);
+		
+		if (current_task == 1) { // currently rotating to target
+			LCDscreens.checkedDraw("Tar angle: " + rotateTarget, 0, 4);
+		} else if (current_task == 2) { // currently rotating for specified amount of time
+			LCDscreens.checkedDraw("Time left: " + (targetTime - System.currentTimeMillis()), 0, 4);
+		}
 	}
 
 	private static void askForMotorPort() {
-		int motor_Port = LCDscreens.MultipleChoice("Choose motor:", "Port A", "Port B", "Port C", 2);
+		int initial_port;
+		if (motorPort == 'A') {
+			initial_port = 1;
+		} else if (motorPort == 'B') {
+			initial_port = 2;
+		} else {
+			initial_port = 3;
+		}
+		int motor_Port = LCDscreens.MultipleChoice("Choose motor:", "Port A", "Port B", "Port C", initial_port);
 		switch (motor_Port) {
 		case 1:
 			motor = Motor.A;
@@ -202,6 +216,8 @@ public class Arm_rotate {
 		motor.setSpeed(speed);
 		motor.setAcceleration(acceleration);
 		motor.setStallThreshold(stalled_error, stalled_time);
+		
+		motor.stop(true);
 	}
 
 }

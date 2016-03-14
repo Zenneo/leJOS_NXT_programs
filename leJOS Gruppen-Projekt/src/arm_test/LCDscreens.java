@@ -10,9 +10,7 @@ public class LCDscreens {
 	// wait in ms after each while iteration
 	public static int waitAfterWhile = 50;
 
-	private final static String[] last_LCD_line_clean = { "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",
-			"" };
-	private static String[] last_LCD_line = last_LCD_line_clean;
+	private static String[] last_LCD_line = { "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "" };
 
 	public static void checkedDraw(String string, int x, int y) {
 		if (string != last_LCD_line[y]) {
@@ -29,7 +27,11 @@ public class LCDscreens {
 
 	public static void checkedClear() {
 		LCD.clear();
-		last_LCD_line = last_LCD_line_clean;
+		int i = 0;
+		while (i < 16) {
+			last_LCD_line[i] = "";
+			i++;
+		}
 	}
 
 	public static int askForValue(String name, int initial, int step, int waitBetween, boolean allowNegative) {
