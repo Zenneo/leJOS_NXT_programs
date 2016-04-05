@@ -36,11 +36,11 @@ public class Arm {
 		RConsole.println("TASK: Rotate arms to initial position");
 
 		motor_rotate.rotate(-360);
-		motor_rotate.rotate(2);
+		motor_rotate.rotate(10);
 		motor_rotate_initialpos = motor_rotate.getPosition();
 
 		motor_arm.rotate(-360);
-		motor_rotate.rotate(2);
+		motor_rotate.rotate(10);
 		motor_arm_initialpos = motor_arm.getPosition();
 	}
 
