@@ -7,6 +7,7 @@ public class Movement {
 
 	/* --Vehicle Movement-- */
 	private int vehicle_movement = 0;
+
 	// vehicle status codes
 	// 0 - unknown
 	// 1 - still
@@ -23,7 +24,7 @@ public class Movement {
 	/* --Engines-- */
 	private NXTRegulatedMotor engine;
 	// Engine speed
-	private int engine_speed = 300;
+	private int engine_speed = 100;
 	private int engine_acceleration = 600;
 
 	public Movement(NXTRegulatedMotor motor1) {
@@ -54,11 +55,25 @@ public class Movement {
 			RConsole.println("TASK: Move to station" + station);
 
 			forward();
+			// sleep to prevent sensor from detecting at station
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		} else if (station == 2) {
 			// DEBUG MSG
 			RConsole.println("TASK: Move to station" + station);
 
 			backward();
+			// sleep to prevent sensor from detecting at station
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		} else {
 			throw new UnsupportedOperationException();
 		}

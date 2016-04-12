@@ -118,8 +118,9 @@ public class Main {
 
 			// Vehicle moving forward
 			case 2:
-				if (Pos.getVehicle_position() == 1 || Pos.getVehicle_position() == 2) { // at
-																						// station
+				if (Pos.getVehicle_position() == 1
+						|| Pos.getVehicle_position() == 2) { // at
+																// station
 					setCurrent_task(3);
 					Move.stop();
 				} else if (Pos.getVehicle_position() == 3) { // in between
@@ -131,8 +132,9 @@ public class Main {
 
 			// Vehicle moving backward
 			case 3:
-				if (Pos.getVehicle_position() == 1 || Pos.getVehicle_position() == 2) { // at
-																						// station
+				if (Pos.getVehicle_position() == 1
+						|| Pos.getVehicle_position() == 2) { // at
+																// station
 					setCurrent_task(3);
 					Move.stop();
 				} else if (Pos.getVehicle_position() == 3) { // in between

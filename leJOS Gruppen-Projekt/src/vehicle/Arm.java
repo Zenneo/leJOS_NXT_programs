@@ -26,7 +26,8 @@ public class Arm {
 
 		motor_rotate.setSpeed(engine1_speed);
 		motor_rotate.setAcceleration(engine1_acceleration);
-		motor_rotate.setStallThreshold(engine_stalled_error, engine_stalled_time);
+		motor_rotate.setStallThreshold(engine_stalled_error,
+				engine_stalled_time);
 		motor_arm.setSpeed(engine2_speed);
 		motor_arm.setAcceleration(engine2_acceleration);
 		motor_arm.setStallThreshold(engine_stalled_error, engine_stalled_time);
