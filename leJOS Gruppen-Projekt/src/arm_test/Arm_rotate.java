@@ -78,17 +78,21 @@ public class Arm_rotate {
 		while (!exitProgram) {
 			drawStats();
 
+			try {
+				if (interruptTask) {
+					Thread.sleep(500); // sleep to prevent double exit
+				} else {
+					Thread.sleep(2500);
+				}
+
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			interruptTask = false;
+
 			if ((motor.getPosition() == rotateTarget && targetTime < System
 					.currentTimeMillis()) || motor.isStalled() || interruptTask) {
-				if (!interruptTask) {
-					try {
-						Thread.sleep(2000);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-				interruptTask = false;
 
 				// ask for Task
 				try {
@@ -199,7 +203,8 @@ public class Arm_rotate {
 					break;
 				case 7: // exit program
 					try {
-						if (LCDscreens.askForConfirmation("Exit program?", true)) {
+						if (LCDscreens
+								.askForConfirmation("Exit program?", true)) {
 							exitProgram = true;
 						}
 					} catch (InterruptedException e) {
