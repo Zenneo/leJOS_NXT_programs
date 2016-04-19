@@ -34,7 +34,7 @@ public class LCDscreens {
 		}
 	}
 
-	public static int askForValue(String name, int initial, int step, int waitBetween, boolean allowNegative) {
+	public static int askForValue(String name, int initial, int step, int waitBetween, boolean allowNegative) throws InterruptedException {
 		// maximum name length: 15
 
 		int value = initial;
@@ -47,7 +47,7 @@ public class LCDscreens {
 		checkedDraw("Confirm with", 0, 3);
 		checkedDraw("orange.", 0, 4);
 
-		while (!Button.ENTER.isDown()) {
+		while (Button.ENTER.isUp() && Button.ESCAPE.isUp()) {
 			if (Button.LEFT.isUp() && Button.RIGHT.isUp()) {
 				pressed_since = 0;
 			} else if (Button.LEFT.isDown() || Button.RIGHT.isDown()) {
@@ -88,13 +88,18 @@ public class LCDscreens {
 
 		checkedClear();
 
-		try {
-			Thread.sleep(waitAfterConfirm);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if (Button.ESCAPE.isDown()) {
+			throw new InterruptedException("Exit by user");
+		} else {
+			try {
+				Thread.sleep(waitAfterConfirm);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return value;
 		}
-		return value;
+		
 	}
 
 	private static String askVal_number(int number) {
@@ -126,7 +131,7 @@ public class LCDscreens {
 	}
 
 	public static int MultipleChoice(String msg1, String option1, String option2, String option3, String option4,
-			String option5, String option6, String option7, int initial) {
+			String option5, String option6, String option7, int initial) throws InterruptedException {
 		// maximum option string length: 14
 
 		boolean button_down = false;
@@ -155,7 +160,7 @@ public class LCDscreens {
 
 		checkedClear();
 		checkedDraw(msg1, 0, 0);
-		while (Button.ENTER.isUp()) {
+		while (Button.ENTER.isUp() && Button.ESCAPE.isUp()) {
 			if (Button.LEFT.isDown() && Button.RIGHT.isUp()) {
 				if (!button_down) {
 					if (confirm_result > 1) {
@@ -215,13 +220,17 @@ public class LCDscreens {
 
 		checkedClear();
 
-		try {
-			Thread.sleep(waitAfterConfirm);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if (Button.ESCAPE.isDown()) {
+			throw new InterruptedException("Exit by user");
+		} else {
+			try {
+				Thread.sleep(waitAfterConfirm);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return confirm_result;
 		}
-		return confirm_result;
 	}
 
 	private static String mchoice_line(String msg, boolean isSelected) {
@@ -232,31 +241,31 @@ public class LCDscreens {
 		}
 	}
 
-	public static int MultipleChoice(String msg1, String option1, String option2, int initial) {
+	public static int MultipleChoice(String msg1, String option1, String option2, int initial) throws InterruptedException {
 		return MultipleChoice(msg1, option1, option2, null, null, null, null, null, initial);
 	}
 
-	public static int MultipleChoice(String msg1, String option1, String option2, String option3, int initial) {
+	public static int MultipleChoice(String msg1, String option1, String option2, String option3, int initial) throws InterruptedException {
 		return MultipleChoice(msg1, option1, option2, option3, null, null, null, null, initial);
 	}
 
 	public static int MultipleChoice(String msg1, String option1, String option2, String option3, String option4,
-			int initial) {
+			int initial) throws InterruptedException {
 		return MultipleChoice(msg1, option1, option2, option3, option4, null, null, null, initial);
 	}
 
 	public static int MultipleChoice(String msg1, String option1, String option2, String option3, String option4,
-			String option5, int initial) {
+			String option5, int initial) throws InterruptedException {
 		return MultipleChoice(msg1, option1, option2, option3, option4, option5, null, null, initial);
 	}
 
 	public static int MultipleChoice(String msg1, String option1, String option2, String option3, String option4,
-			String option5, String option6, int initial) {
+			String option5, String option6, int initial) throws InterruptedException {
 		return MultipleChoice(msg1, option1, option2, option3, option4, option5, option6, null, initial);
 	}
 
 	public static boolean askForConfirmation(String custom_msg1, String custom_msg2, String custom_msg3,
-			String custom_msg4, boolean initial) {
+			String custom_msg4, boolean initial) throws InterruptedException {
 		// maximum msg length: 16
 
 		boolean confirm_result = initial;
@@ -269,7 +278,7 @@ public class LCDscreens {
 		checkedDraw(custom_msg4, 0, 3);
 
 		checkedDraw("Confirm?", 0, 5);
-		while (Button.ENTER.isUp()) {
+		while (Button.ENTER.isUp() && Button.ESCAPE.isUp()) {
 			if (Button.LEFT.isDown() || Button.RIGHT.isDown()) {
 				if (!button_down) {
 					confirm_result = !confirm_result;
@@ -296,26 +305,29 @@ public class LCDscreens {
 
 		checkedClear();
 
-		try {
-			Thread.sleep(waitAfterConfirm);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if (Button.ESCAPE.isDown()) {
+			throw new InterruptedException("Exit by user");
+		} else {
+			try {
+				Thread.sleep(waitAfterConfirm);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return confirm_result;
 		}
-
-		return confirm_result;
 	}
 
-	public static boolean askForConfirmation(String custom_msg1, boolean initial) {
+	public static boolean askForConfirmation(String custom_msg1, boolean initial) throws InterruptedException {
 		return askForConfirmation(custom_msg1, "", "", "", initial);
 	}
 
-	public static boolean askForConfirmation(String custom_msg1, String custom_msg2, boolean initial) {
+	public static boolean askForConfirmation(String custom_msg1, String custom_msg2, boolean initial) throws InterruptedException {
 		return askForConfirmation(custom_msg1, custom_msg2, "", "", initial);
 	}
 
 	public static boolean askForConfirmation(String custom_msg1, String custom_msg2, String custom_msg3,
-			boolean initial) {
+			boolean initial) throws InterruptedException {
 		return askForConfirmation(custom_msg1, custom_msg2, custom_msg3, "", initial);
 	}
 }

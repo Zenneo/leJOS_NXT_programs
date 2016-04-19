@@ -42,20 +42,30 @@ public class Arm_rotate {
 			e.printStackTrace();
 		}
 
-		// screen: ask for motor port
-		askForMotorPort();
+		try {
+			// screen: ask for motor port
+			askForMotorPort();
 
-		// screen: ask for speed
-		speed = LCDscreens.askForValue("Speed", 75, 5, wait_between_press, false);
+			// screen: ask for speed
+			speed = LCDscreens.askForValue("Speed", 75, 5, wait_between_press,
+					false);
 
-		// screen: ask for acceleration
-		acceleration = LCDscreens.askForValue("Acceleration", 200, 25, wait_between_press, false);
+			// screen: ask for acceleration
+			acceleration = LCDscreens.askForValue("Acceleration", 200, 25,
+					wait_between_press, false);
 
-		// screen: ask for stalled error
-		stalled_error = LCDscreens.askForValue("Stall error", 2, 1, wait_between_press, false);
+			// screen: ask for stalled error
+			stalled_error = LCDscreens.askForValue("Stall error", 2, 1,
+					wait_between_press, false);
 
-		// screen: ask for stalled time
-		stalled_time = LCDscreens.askForValue("Stall time", 50, 25, wait_between_press, false);
+			// screen: ask for stalled time
+			stalled_time = LCDscreens.askForValue("Stall time", 50, 25,
+					wait_between_press, false);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			System.exit(1);
+		}
 
 		// set determined values
 		motor.setSpeed(speed);
@@ -68,8 +78,8 @@ public class Arm_rotate {
 		while (!exitProgram) {
 			drawStats();
 
-			if ((motor.getPosition() == rotateTarget && targetTime < System.currentTimeMillis()) || motor.isStalled()
-					|| interruptTask) {
+			if ((motor.getPosition() == rotateTarget && targetTime < System
+					.currentTimeMillis()) || motor.isStalled() || interruptTask) {
 				if (!interruptTask) {
 					try {
 						Thread.sleep(2000);
@@ -81,29 +91,54 @@ public class Arm_rotate {
 				interruptTask = false;
 
 				// ask for Task
-				current_task = LCDscreens.MultipleChoice("Enter task:", "Target angle", "Rotate time", "Show stats",
-						"Floating mode", "Change values", "Change motor", "Exit", current_task);
+				try {
+					current_task = LCDscreens.MultipleChoice("Enter task:",
+							"Target angle", "Rotate time", "Show stats",
+							"Floating mode", "Change values", "Change motor",
+							"Exit", current_task);
+				} catch (InterruptedException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+					System.exit(1);
+				}
 				switch (current_task) {
 				case 1: // rotate to target angle
 					// dividing by 2 and multiplying by two ensures an even
 					// number
-					rotateTarget = LCDscreens.askForValue("Tar angle", motor.getPosition() / 2 * 2, 2,
-							wait_between_press, true);
-					motor.rotateTo(rotateTarget, true);
+					try {
+						rotateTarget = LCDscreens.askForValue("Tar angle",
+								motor.getPosition() / 2 * 2, 2,
+								wait_between_press, true);
+						motor.rotateTo(rotateTarget, true);
+					} catch (InterruptedException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+						interruptTask = true;
+					}
 					break;
 				case 2: // rotate for a specific amount of time
-					int orientation = LCDscreens.MultipleChoice("Direction:", "Forward", "Backward", 1);
-					rotateTime = LCDscreens.askForValue("Time in ms", rotateTime, 250, wait_between_press, false);
-					targetTime = System.currentTimeMillis() + rotateTime;
-					if (orientation == 1) {
-						motor.forward();
-					} else {
-						motor.backward();
+					try {
+						int orientation = LCDscreens.MultipleChoice(
+								"Direction:", "Forward", "Backward", 1);
+						rotateTime = LCDscreens.askForValue("Time in ms",
+								rotateTime, 250, wait_between_press, false);
+						targetTime = System.currentTimeMillis() + rotateTime;
+						if (orientation == 1) {
+							motor.forward();
+						} else {
+							motor.backward();
+						}
+					} catch (InterruptedException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+						interruptTask = true;
 					}
+
 					break;
 				case 3: // show stats
 					long show_until = System.currentTimeMillis() + 10000;
-					while (show_until > System.currentTimeMillis() && Button.ESCAPE.isUp()) {
+					while (show_until > System.currentTimeMillis()
+							&& Button.ESCAPE.isUp()) {
 						drawStats();
 						try {
 							Thread.sleep(200);
@@ -114,26 +149,46 @@ public class Arm_rotate {
 					}
 					break;
 				case 4: // enter floating mode
-					if (LCDscreens.askForConfirmation("Disable motor", "regulations for", "manual rotation?", true)) {
-						motor.flt(true);
+					try {
+						if (LCDscreens.askForConfirmation("Disable motor",
+								"regulations for", "manual rotation?", true)) {
+							motor.flt(true);
+						}
+					} catch (InterruptedException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
 					}
 					interruptTask = true;
 					break;
 				case 5: // change values
-					int value_for_change = LCDscreens.MultipleChoice("Value to change:", "Speed", "Acceleration",
-							"Stall error", "Stall time", 1);
-					if (value_for_change == 1) {
-						speed = LCDscreens.askForValue("Speed", speed, 5, wait_between_press, false);
-						motor.setSpeed(speed);
-					} else if (value_for_change == 2) {
-						acceleration = LCDscreens.askForValue("Acceleration", acceleration, 25, wait_between_press, false);
-						motor.setAcceleration(acceleration);
-					} else if (value_for_change == 3) {
-						stalled_error = LCDscreens.askForValue("Stall error", stalled_error, 1, wait_between_press, false);
-						motor.setStallThreshold(stalled_error, stalled_time);
-					} else if (value_for_change == 4) {
-						stalled_time = LCDscreens.askForValue("Stall time", stalled_time, 25, wait_between_press, false);
-						motor.setStallThreshold(stalled_error, stalled_time);
+					try {
+						int value_for_change = LCDscreens.MultipleChoice(
+								"Value to change:", "Speed", "Acceleration",
+								"Stall error", "Stall time", 1);
+						if (value_for_change == 1) {
+							speed = LCDscreens.askForValue("Speed", speed, 5,
+									wait_between_press, false);
+							motor.setSpeed(speed);
+						} else if (value_for_change == 2) {
+							acceleration = LCDscreens.askForValue(
+									"Acceleration", acceleration, 25,
+									wait_between_press, false);
+							motor.setAcceleration(acceleration);
+						} else if (value_for_change == 3) {
+							stalled_error = LCDscreens.askForValue(
+									"Stall error", stalled_error, 1,
+									wait_between_press, false);
+							motor.setStallThreshold(stalled_error, stalled_time);
+						} else if (value_for_change == 4) {
+							stalled_time = LCDscreens
+									.askForValue("Stall time", stalled_time,
+											25, wait_between_press, false);
+							motor.setStallThreshold(stalled_error, stalled_time);
+						}
+					} catch (InterruptedException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+						interruptTask = true;
 					}
 					interruptTask = true;
 					break;
@@ -143,8 +198,13 @@ public class Arm_rotate {
 					interruptTask = true;
 					break;
 				case 7: // exit program
-					if (LCDscreens.askForConfirmation("Exit program?", true)) {
-						exitProgram = true;
+					try {
+						if (LCDscreens.askForConfirmation("Exit program?", true)) {
+							exitProgram = true;
+						}
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
 					break;
 				}
@@ -154,7 +214,8 @@ public class Arm_rotate {
 				if (Button.ESCAPE.isDown() || Button.ENTER.isDown()) {
 					motor.stop();
 					interruptTask = true;
-				} else if (current_task == 2 && targetTime < System.currentTimeMillis()) {
+				} else if (current_task == 2
+						&& targetTime < System.currentTimeMillis()) {
 					motor.stop();
 					interruptTask = true;
 				} else {
@@ -177,11 +238,14 @@ public class Arm_rotate {
 		LCDscreens.checkedDraw("Accel: " + motor.getAcceleration(), 0, 2);
 		LCDscreens.checkedDraw("Cur angle: " + motor.getTachoCount(), 0, 3);
 		LCDscreens.checkedDraw("Stalled: " + motor.isStalled(), 0, 6);
-		
+
 		if (current_task == 1) { // currently rotating to target
 			LCDscreens.checkedDraw("Tar angle: " + rotateTarget, 0, 4);
-		} else if (current_task == 2) { // currently rotating for specified amount of time
-			LCDscreens.checkedDraw("Time left: " + (targetTime - System.currentTimeMillis()), 0, 4);
+		} else if (current_task == 2) { // currently rotating for specified
+										// amount of time
+			LCDscreens.checkedDraw(
+					"Time left: " + (targetTime - System.currentTimeMillis()),
+					0, 4);
 		}
 	}
 
@@ -194,7 +258,15 @@ public class Arm_rotate {
 		} else {
 			initial_port = 3;
 		}
-		int motor_Port = LCDscreens.MultipleChoice("Choose motor:", "Port A", "Port B", "Port C", initial_port);
+		int motor_Port = 0;
+		try {
+			motor_Port = LCDscreens.MultipleChoice("Choose motor:", "Port A",
+					"Port B", "Port C", initial_port);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.exit(1);
+		}
 		switch (motor_Port) {
 		case 1:
 			motor = Motor.A;
@@ -216,7 +288,7 @@ public class Arm_rotate {
 		motor.setSpeed(speed);
 		motor.setAcceleration(acceleration);
 		motor.setStallThreshold(stalled_error, stalled_time);
-		
+
 		motor.stop(true);
 	}
 
