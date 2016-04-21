@@ -188,6 +188,8 @@ public class Arm_rotate {
 						e.printStackTrace();
 					}
 					break;
+				default:
+					throw new IllegalStateException("Menu option not existing");
 				}
 
 			} else {
@@ -253,7 +255,7 @@ public class Arm_rotate {
 			motorPort = 'C';
 			break;
 		default:
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("Invalid motor port");
 		}
 
 		// set determined values
