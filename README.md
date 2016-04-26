@@ -10,6 +10,7 @@ This project contains some leJOS scripts that we created for our school project.
 * [leJOS-API Wildermann](https://www12.informatik.uni-erlangen.de/people/wildermann/schule/lejosapi/)
 
 * [Official leJOS-API](http://www.lejos.org/nxt/nxj/api/)
+* [leJOS Bluetooth tutorial](http://www.juanantonio.info/docs/2008/LEJOS-BLUETOOTH.pdf)
 
 #Scripts:
 
