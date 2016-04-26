@@ -12,24 +12,27 @@ import vehicle.Movement;
 public class Main {
 
 	/* --Connected Peripherals-- */
+	// -bluetooth
+	private static final BlueComm bluecomm = new BlueComm("Anlieferung", 5000);
+	
 	// -sensors
-	private static TouchSensor touch1 = new TouchSensor(SensorPort.S1);
-	private static TouchSensor touch2 = new TouchSensor(SensorPort.S2);
-	private static boolean touchOrientation = true; // see vehicle.position
-	private static Position Pos = new Position(touch1, touch2, touchOrientation);
+	private static final TouchSensor touch1 = new TouchSensor(SensorPort.S1);
+	private static final TouchSensor touch2 = new TouchSensor(SensorPort.S2);
+	private static final boolean touchOrientation = true; // see vehicle.position
+	private static final Position Pos = new Position(touch1, touch2, touchOrientation);
 
 	// -engines
-	private static NXTRegulatedMotor engine = Motor.A; // moves vehicle
-	private static Movement Move = new Movement(engine);
-	private static NXTRegulatedMotor arm1 = Motor.B; // Rotates arm
-	private static NXTRegulatedMotor arm2 = Motor.C; // Lifts arm
-	private static Arm Arms = new Arm(arm1, arm2);
+	private static final NXTRegulatedMotor engine = Motor.A; // moves vehicle
+	private static final Movement Move = new Movement(engine);
+	private static final NXTRegulatedMotor arm1 = Motor.B; // Rotates arm
+	private static final NXTRegulatedMotor arm2 = Motor.C; // Lifts arm
+	private static final Arm Arms = new Arm(arm1, arm2);
 
 	/* --Logic vars-- */
 	// station that delivers package
-	private static int delivering_station = 1;
+	private static final int delivering_station = 1;
 	// station that receives package
-	private static int receiving_station = 2;
+	private static final int receiving_station = 2;
 
 	/* --Status Codes-- */
 	private static int current_task = 0;
