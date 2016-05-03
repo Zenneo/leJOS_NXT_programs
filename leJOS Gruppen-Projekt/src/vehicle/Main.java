@@ -13,13 +13,16 @@ public class Main {
 
 	/* --Connected Peripherals-- */
 	// -bluetooth
-	private static final BlueComm bluecomm = new BlueComm("Anlieferung", 5000);
-	
+	// name of delivering station
+	private static final BlueComm bluecomm = new BlueComm("LG Phone", 5000);
+
 	// -sensors
 	private static final TouchSensor touch1 = new TouchSensor(SensorPort.S1);
 	private static final TouchSensor touch2 = new TouchSensor(SensorPort.S2);
-	private static final boolean touchOrientation = true; // see vehicle.position
-	private static final Position Pos = new Position(touch1, touch2, touchOrientation);
+	private static final boolean touchOrientation = true; // see
+															// vehicle.position
+	private static final Position Pos = new Position(touch1, touch2,
+			touchOrientation);
 
 	// -engines
 	private static final NXTRegulatedMotor engine = Motor.A; // moves vehicle
@@ -54,7 +57,7 @@ public class Main {
 	 * @param current_task
 	 *            the current_task to set
 	 */
-	private static void setCurrent_task(int current_task) {
+	public static void setCurrent_task(int current_task) {
 		Main.current_task = current_task;
 	}
 
@@ -71,6 +74,9 @@ public class Main {
 		LCDthreadobj.setPriority(Thread.NORM_PRIORITY - 1);
 		LCDthreadobj.start();
 
+		// establish bluetooth connection
+		bluecomm.connectToDevice();
+
 		// vehicle initialization
 		Arms.rotateToInitial();
 
@@ -83,8 +89,7 @@ public class Main {
 			case 1:
 				// Vehicle at delivering station
 				if (Pos.getVehicle_position() == delivering_station) {
-					// TODO check if package can be received
-					waitForTrigger();
+					bluecomm.waitForPackage();
 
 					// receive package from station
 					setCurrent_task(4);
@@ -95,10 +100,9 @@ public class Main {
 					Move.moveToStation(receiving_station);
 
 				}
-				// Vehicle at delivering station
+				// Vehicle at receiving station
 				else if (Pos.getVehicle_position() == receiving_station) {
 					// TODO check if package can be delivered
-					waitForTrigger();
 
 					// deliver package to station
 					setCurrent_task(5);
@@ -112,7 +116,10 @@ public class Main {
 					Pos.checkPosition();
 				} else if (Pos.getVehicle_position() == 3) { // Vehicle between
 																// stations
-					// NOP
+					if (getCurrent_task() == 0) {
+						Move.moveToStation(receiving_station);
+					}
+					// else NOP
 
 				} else {
 					throw new IllegalStateException();
@@ -161,18 +168,6 @@ public class Main {
 			// check for any changes
 			Pos.checkPosition();
 			Move.checkMovement();
-		}
-	}
-
-	private static void waitForTrigger() {
-		// DEBUG MSG
-		RConsole.println("Waiting for trigger... ");
-
-		// TODO Create a blocking function that releases when triggered
-		try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
 		}
 	}
 

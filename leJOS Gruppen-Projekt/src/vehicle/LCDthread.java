@@ -75,11 +75,13 @@ public class LCDthread extends Thread {
 		case 2:
 			return "To Stat2";
 		case 3:
-			return "Wait";
+			return "Wait for pkg";
 		case 4:
 			return "Load pkg";
 		case 5:
 			return "Unload pkg";
+		case 10:
+			return "BT connect";
 		default:
 			throw new UnsupportedOperationException();
 		}
