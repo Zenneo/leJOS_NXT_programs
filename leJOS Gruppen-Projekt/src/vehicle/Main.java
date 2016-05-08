@@ -14,7 +14,7 @@ public class Main {
 	/* --Connected Peripherals-- */
 	// -bluetooth
 	// name of delivering station
-	private static final BlueComm bluecomm = new BlueComm("LG Phone", 5000);
+	private static final BlueComm bluecomm = new BlueComm("NXT", 5000);
 
 	// -sensors
 	private static final TouchSensor touch1 = new TouchSensor(SensorPort.S1);
@@ -74,10 +74,8 @@ public class Main {
 		LCDthreadobj.setPriority(Thread.NORM_PRIORITY - 1);
 		LCDthreadobj.start();
 
-		// establish bluetooth connection
-		bluecomm.connectToDevice();
-
 		// vehicle initialization
+		setCurrent_task(0);
 		Arms.rotateToInitial();
 
 		// Main Loop
@@ -190,6 +188,7 @@ public class Main {
 			} else if (Button.ENTER.isDown()) {
 				LCD.clear();
 				RConsole.open();
+				i = 0;
 			}
 			Thread.sleep(1000);
 		}
