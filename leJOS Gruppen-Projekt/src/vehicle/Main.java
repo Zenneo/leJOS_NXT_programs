@@ -14,7 +14,7 @@ public class Main {
 	/* --Connected Peripherals-- */
 	// -bluetooth
 	// name of delivering station
-	private static final BlueComm bluecomm = new BlueComm("NXT", 5000);
+	private static final BlueComm bluecomm = new BlueComm("PFJ_Client", 5000);
 
 	// -sensors
 	private static final TouchSensor touch1 = new TouchSensor(SensorPort.S1);
@@ -87,7 +87,7 @@ public class Main {
 			case 1:
 				// Vehicle at delivering station
 				if (Pos.getVehicle_position() == delivering_station) {
-					bluecomm.waitForPackage();
+					//bluecomm.waitForPackage();
 
 					// receive package from station
 					setCurrent_task(4);

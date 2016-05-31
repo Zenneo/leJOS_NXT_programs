@@ -8,7 +8,6 @@ import javax.bluetooth.BluetoothStateException;
 import javax.bluetooth.RemoteDevice;
 
 import lejos.nxt.Button;
-import lejos.nxt.SensorPort;
 import lejos.nxt.comm.BTConnection;
 import lejos.nxt.comm.Bluetooth;
 import lejos.nxt.comm.RConsole;

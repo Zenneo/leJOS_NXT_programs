@@ -2,7 +2,6 @@ package vehicle;
 
 import lejos.nxt.NXTRegulatedMotor;
 import lejos.nxt.comm.RConsole;
-import lejos.util.Delay;
 
 public class Arm {
 
@@ -11,11 +10,11 @@ public class Arm {
 	private NXTRegulatedMotor motor_arm;
 	// engine vars
 	private int engine1_speed = 50; // rotation speed
-	private int engine2_speed = 20; // lift speed
-	private int engine1_acceleration = 50; // rotation acceleration
-	private int engine2_acceleration = 25; // lift acceleration
-	private int engine_stalled_error = 2; // stalled error
-	private int engine_stalled_time = 50; // stalled time in ms
+	private int engine2_speed = 60; // lift speed
+	private int engine1_acceleration = 300; // rotation acceleration
+	private int engine2_acceleration = 200; // lift acceleration
+	private int engine_stalled_error = 4; // stalled error
+	private int engine_stalled_time = 200; // stalled time in ms
 
 	private int motor_rotate_initialpos;
 	private int motor_arm_initialpos;
@@ -36,12 +35,12 @@ public class Arm {
 	public void rotateToInitial() {
 		RConsole.println("TASK: Rotate arms to initial position");
 
-		motor_rotate.rotate(-360);
-		motor_rotate.rotate(10);
+		motor_rotate.rotate(1000); // rotate until stalled
+		motor_rotate.rotate(-114); // ready for driving
 		motor_rotate_initialpos = motor_rotate.getPosition();
 
-		motor_arm.rotate(-360);
-		motor_rotate.rotate(10);
+		motor_arm.rotate(2000); // rotate until stalled
+		motor_arm.rotate(-1000); // ready for driving
 		motor_arm_initialpos = motor_arm.getPosition();
 	}
 
@@ -83,17 +82,13 @@ public class Arm {
 		case 2:
 			// load vehicle
 			// TODO determine correct angles
-			motor_arm.rotate(-40);
-			motor_rotate.rotate(90);
-			motor_arm.rotate(-5);
+			motor_arm.rotate(1000); // lower box
 			break;
 		case 3:
 			// unload vehicle
 			// TODO determine correct angles
-			motor_rotate.rotate(90);
-			motor_arm.rotate(-50);
-			Delay.msDelay(500);
-			motor_rotate.rotate(-20);
+			motor_rotate.rotate(-200);
+			motor_arm.rotate(900);
 			break;
 		default:
 			throw new UnsupportedOperationException();
