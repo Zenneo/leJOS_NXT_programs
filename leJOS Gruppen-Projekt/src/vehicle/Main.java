@@ -7,6 +7,7 @@ import lejos.nxt.NXTRegulatedMotor;
 import lejos.nxt.SensorPort;
 import lejos.nxt.TouchSensor;
 import lejos.nxt.comm.RConsole;
+import lejos.util.Delay;
 import vehicle.Movement;
 
 public class Main {
@@ -87,7 +88,9 @@ public class Main {
 			case 1:
 				// Vehicle at delivering station
 				if (Pos.getVehicle_position() == delivering_station) {
-					//bluecomm.waitForPackage();
+					// bluecomm.waitForPackage();
+					Delay.msDelay(5000); // wait to ensure that the box has
+											// slided down
 
 					// receive package from station
 					setCurrent_task(4);
@@ -187,7 +190,7 @@ public class Main {
 				return;
 			} else if (Button.ENTER.isDown()) {
 				LCD.clear();
-				RConsole.open();
+				RConsole.openAny(0);
 				i = 0;
 			}
 			Thread.sleep(1000);

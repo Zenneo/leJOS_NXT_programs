@@ -2,6 +2,7 @@ package vehicle;
 
 import lejos.nxt.NXTRegulatedMotor;
 import lejos.nxt.comm.RConsole;
+import lejos.util.Delay;
 
 public class Arm {
 
@@ -9,12 +10,14 @@ public class Arm {
 	private NXTRegulatedMotor motor_rotate;
 	private NXTRegulatedMotor motor_arm;
 	// engine vars
-	private int engine1_speed = 50; // rotation speed
-	private int engine2_speed = 60; // lift speed
-	private int engine1_acceleration = 300; // rotation acceleration
-	private int engine2_acceleration = 200; // lift acceleration
-	private int engine_stalled_error = 4; // stalled error
-	private int engine_stalled_time = 200; // stalled time in ms
+	private int engine1_speed = 30; // rotation speed
+	private int engine2_speed = 45; // lift speed
+	private int engine1_acceleration = 500; // rotation acceleration
+	private int engine2_acceleration = 600; // lift acceleration
+	private int engine1_stalled_error = 2; // stalled error
+	private int engine1_stalled_time = 150; // stalled time in ms
+	private int engine2_stalled_error = 3; // stalled error
+	private int engine2_stalled_time = 200; // stalled time in ms
 
 	private int motor_rotate_initialpos;
 	private int motor_arm_initialpos;
@@ -25,18 +28,18 @@ public class Arm {
 
 		motor_rotate.setSpeed(engine1_speed);
 		motor_rotate.setAcceleration(engine1_acceleration);
-		motor_rotate.setStallThreshold(engine_stalled_error,
-				engine_stalled_time);
+		motor_rotate.setStallThreshold(engine1_stalled_error,
+				engine1_stalled_time);
 		motor_arm.setSpeed(engine2_speed);
 		motor_arm.setAcceleration(engine2_acceleration);
-		motor_arm.setStallThreshold(engine_stalled_error, engine_stalled_time);
+		motor_arm
+				.setStallThreshold(engine2_stalled_error, engine2_stalled_time);
 	}
 
 	public void rotateToInitial() {
 		RConsole.println("TASK: Rotate arms to initial position");
 
 		motor_rotate.rotate(1000); // rotate until stalled
-		motor_rotate.rotate(-114); // ready for driving
 		motor_rotate_initialpos = motor_rotate.getPosition();
 
 		motor_arm.rotate(2000); // rotate until stalled
@@ -72,22 +75,24 @@ public class Arm {
 		// 2: ready for loading
 		// 3: ready for unloading
 
-		RConsole.println("ACTION: Rotating arms to position " + posi);
+		RConsole.println("ACTION: Rotating to position " + posi);
 
+		Delay.msDelay(500);
+		
 		switch (posi) {
 		case 1:
 			motor_arm.rotateTo(motor_arm_initialpos);
-			motor_rotate.rotateTo(motor_rotate_initialpos);
+			motor_rotate.rotateTo(motor_rotate_initialpos + 1000);
 			break;
 		case 2:
 			// load vehicle
 			// TODO determine correct angles
-			motor_arm.rotate(1000); // lower box
+			motor_arm.rotate(1000); // lower fork
+			motor_rotate.rotate(-900); // rotate arm to the right
 			break;
 		case 3:
 			// unload vehicle
 			// TODO determine correct angles
-			motor_rotate.rotate(-200);
 			motor_arm.rotate(900);
 			break;
 		default:

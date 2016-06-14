@@ -15,8 +15,8 @@ import lejos.nxt.comm.RConsole;
 public class BlueComm {
 
 	// bluetooth codes
-	final byte askForPackage = 2;
-	final byte packageWasDelivered = 7;
+	final short askForPackage = 2;
+	final short packageWasDelivered = 7;
 	// constant vars
 	final String btname;
 	final int waitBetweenSends;
@@ -36,9 +36,6 @@ public class BlueComm {
 	}
 
 	public boolean waitForPackage() {
-		// var for interrupt code
-		boolean stage_1 = false;
-
 		// var for counting send attempts
 		int attempts = 0;
 
@@ -102,9 +99,7 @@ public class BlueComm {
 			}
 
 			// skip check through key combo
-			if (Button.RIGHT.isDown()) {
-				stage_1 = true;
-			} else if (stage_1 && Button.LEFT.isDown()) {
+			if (Button.LEFT.isDown()) {
 				packageReceived = true;
 				RConsole.println("[BT] User skipped check");
 			}

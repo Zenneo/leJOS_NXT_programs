@@ -54,7 +54,7 @@ public class Movement {
 			// DEBUG MSG
 			RConsole.println("TASK: Move to station" + station);
 
-			forward();
+			backward();
 			// sleep to prevent sensor from detecting at station
 			try {
 				Thread.sleep(1000);
@@ -66,7 +66,7 @@ public class Movement {
 			// DEBUG MSG
 			RConsole.println("TASK: Move to station" + station);
 
-			backward();
+			forward();
 			// sleep to prevent sensor from detecting at station
 			try {
 				Thread.sleep(1000);
@@ -93,7 +93,7 @@ public class Movement {
 		engine.forward();
 		vehicle_movement = 2;
 		try {
-			Thread.sleep(200);
+			Thread.sleep(1000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -106,7 +106,7 @@ public class Movement {
 		engine.backward();
 		vehicle_movement = 3;
 		try {
-			Thread.sleep(200);
+			Thread.sleep(1000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
