@@ -2,6 +2,7 @@ package vehicle;
 
 import lejos.nxt.NXTRegulatedMotor;
 import lejos.nxt.comm.RConsole;
+import lejos.util.Delay;
 
 public class Movement {
 
@@ -56,24 +57,14 @@ public class Movement {
 
 			backward();
 			// sleep to prevent sensor from detecting at station
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			Delay.msDelay(2000);
 		} else if (station == 2) {
 			// DEBUG MSG
 			RConsole.println("TASK: Move to station" + station);
 
 			forward();
 			// sleep to prevent sensor from detecting at station
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			Delay.msDelay(2000);
 		} else {
 			throw new UnsupportedOperationException();
 		}
@@ -91,26 +82,20 @@ public class Movement {
 		// DEBUG MSG
 		RConsole.println("ACTION: Moving vehicle forward... ");
 		engine.forward();
-		vehicle_movement = 2;
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if (engine.isStalled()) {
+			RConsole.println("WARNING: Movement Motor has stalled!");
 		}
+		vehicle_movement = 2;
 	}
 
 	public void backward() {
 		// DEBUG MSG
 		RConsole.println("ACTION: Moving vehicle backward... ");
 		engine.backward();
-		vehicle_movement = 3;
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if (engine.isStalled()) {
+			RConsole.println("WARNING: Movement Motor has stalled!");
 		}
+		vehicle_movement = 3;
 	}
 
 }

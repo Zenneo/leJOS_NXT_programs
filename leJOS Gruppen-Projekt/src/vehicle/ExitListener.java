@@ -6,7 +6,6 @@ import lejos.nxt.LCD;
 
 public class ExitListener implements ButtonListener {
 
-	@Override
 	public void buttonPressed(Button b) {
 		LCD.clear();
 		LCD.drawString("Program exit", 0, 0);
@@ -20,7 +19,6 @@ public class ExitListener implements ButtonListener {
 
 	}
 
-	@Override
 	public void buttonReleased(Button b) {
 		// NOP
 	}

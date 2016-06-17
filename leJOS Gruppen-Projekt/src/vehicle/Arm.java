@@ -1,5 +1,6 @@
 package vehicle;
 
+import lejos.nxt.Motor;
 import lejos.nxt.NXTRegulatedMotor;
 import lejos.nxt.comm.RConsole;
 import lejos.util.Delay;
@@ -10,6 +11,7 @@ public class Arm {
 	private NXTRegulatedMotor motor_rotate;
 	private NXTRegulatedMotor motor_arm;
 	// engine vars
+	private int delay_between_rotations = 250; // in ms
 	private int engine1_speed = 30; // rotation speed
 	private int engine2_speed = 45; // lift speed
 	private int engine1_acceleration = 500; // rotation acceleration
@@ -61,14 +63,16 @@ public class Arm {
 		rotateToPos(1);
 	}
 
+	// returns the current rotate motor position; needed by LCD
 	public int mrotate_pos() {
 		return motor_rotate.getTachoCount();
 	}
-
+	// returns the current arm motor position; needed by LCD
 	public int marm_pos() {
 		return motor_arm.getTachoCount();
 	}
 
+	// executes rotations necessary to get motor to rotate into a specific position
 	private void rotateToPos(int posi) {
 		// posis:
 		// 1: ready for movement
@@ -76,27 +80,56 @@ public class Arm {
 		// 3: ready for unloading
 
 		RConsole.println("ACTION: Rotating to position " + posi);
-
-		Delay.msDelay(500);
 		
 		switch (posi) {
 		case 1:
-			motor_arm.rotateTo(motor_arm_initialpos);
-			motor_rotate.rotateTo(motor_rotate_initialpos + 1000);
+			m_rotateTo(motor_arm, motor_arm_initialpos);
+			m_rotateTo(motor_rotate, motor_rotate_initialpos + 1000);
 			break;
 		case 2:
 			// load vehicle
-			// TODO determine correct angles
-			motor_arm.rotate(1000); // lower fork
-			motor_rotate.rotate(-900); // rotate arm to the right
+			m_rotate(motor_arm, 1000); // lower fork
+			m_rotate(motor_rotate, -900); // rotate arm to the right
 			break;
 		case 3:
 			// unload vehicle
-			// TODO determine correct angles
-			motor_arm.rotate(900);
+			m_rotate(motor_arm, 900);
 			break;
 		default:
 			throw new UnsupportedOperationException();
 		}
 	}
+	
+	// -- functions for motor operations
+	// these are described in separate functions in order to detect and report stalls
+	private void m_rotateTo(NXTRegulatedMotor motor, int angle) {
+		motor.rotateTo(angle);
+		if (motor.isStalled()) {
+			char port = getMotorPortChar(motor);
+			RConsole.println("WARNING: Motor " + port + "has stalled!");
+		}
+		Delay.msDelay(delay_between_rotations);
+	}
+	private void m_rotate(NXTRegulatedMotor motor, int angle) {
+		motor.rotate(angle);
+		if (motor.isStalled()) {
+			char port = getMotorPortChar(motor);
+			RConsole.println("WARNING: Motor " + port + "has stalled!");
+		}
+		Delay.msDelay(delay_between_rotations);
+	}
+	
+	// detects which motor port the given motor is connected to
+	private char getMotorPortChar(NXTRegulatedMotor motor) {
+		if (motor == Motor.A) {
+			return 'A';
+		} else if (motor == Motor.B) {
+			return 'B';
+		} else if (motor == Motor.C) {
+			return 'C';
+		} else {
+			return '-';
+		}
+	}
+	
 }

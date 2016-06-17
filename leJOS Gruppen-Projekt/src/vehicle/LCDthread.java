@@ -1,6 +1,8 @@
 package vehicle;
 
 import lejos.nxt.Battery;
+import lejos.nxt.Motor;
+import lejos.nxt.NXTRegulatedMotor;
 
 // This thread draws the current status onto the screen
 public class LCDthread extends Thread {
@@ -28,16 +30,13 @@ public class LCDthread extends Thread {
 			arm_test.LCDscreens.checkedDraw("--- Vehicle  ---", 0, 0);
 
 			// line 1
-			arm_test.LCDscreens.checkedDraw(
-					"Tsk: " + taskMsg(Main.getCurrent_task()), 0, 1);
+			arm_test.LCDscreens.checkedDraw("Tsk: " + taskMsg(Main.getCurrent_task()), 0, 1);
 
 			// line 2
-			arm_test.LCDscreens.checkedDraw(
-					"Pos: " + posMsg(pos.getVehicle_position()), 0, 2);
+			arm_test.LCDscreens.checkedDraw("Pos: " + posMsg(pos.getVehicle_position()), 0, 2);
 
 			// line 3
-			arm_test.LCDscreens.checkedDraw(
-					"Move: " + movementMsg(move.getVehicle_movement()), 0, 3);
+			arm_test.LCDscreens.checkedDraw("Move: " + movementMsg(move.getVehicle_movement()), 0, 3);
 
 			// line 4
 			arm_test.LCDscreens.checkedDraw("Speed: " + move.getSpeed(), 0, 4);
@@ -46,12 +45,10 @@ public class LCDthread extends Thread {
 			arm_test.LCDscreens.checkedDraw("---   Arms   ---", 0, 5);
 
 			// line 6
-			arm_test.LCDscreens.checkedDraw("A1:" + arm.mrotate_pos() + " A2:"
-					+ arm.marm_pos(), 0, 6);
+			arm_test.LCDscreens.checkedDraw("A1:" + arm.mrotate_pos() + " A2:" + arm.marm_pos(), 0, 6);
 
 			// line 7
-			arm_test.LCDscreens.checkedDraw(
-					"Bat-Volt: " + Battery.getVoltage(), 0, 7);
+			arm_test.LCDscreens.checkedDraw("Bat-Volt: " + Battery.getVoltage(), 0, 7);
 
 			// sleep to allow more CPU time for main thread
 			try {
