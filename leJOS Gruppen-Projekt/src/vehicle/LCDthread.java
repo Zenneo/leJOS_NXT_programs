@@ -80,7 +80,7 @@ public class LCDthread extends Thread {
 		case 10:
 			return "BT connect";
 		default:
-			throw new UnsupportedOperationException();
+			throw new UnsupportedOperationException("Unknown task message ID");
 		}
 	}
 
@@ -97,7 +97,7 @@ public class LCDthread extends Thread {
 		case 3:
 			return "Backward";
 		default:
-			throw new UnsupportedOperationException();
+			throw new UnsupportedOperationException("Unknown movement message ID");
 		}
 	}
 
@@ -114,7 +114,7 @@ public class LCDthread extends Thread {
 		case 3:
 			return "Between";
 		default:
-			throw new UnsupportedOperationException();
+			throw new UnsupportedOperationException("Unknown position message ID");
 		}
 	}
 

@@ -11,7 +11,7 @@ public class Arm {
 	private NXTRegulatedMotor motor_rotate;
 	private NXTRegulatedMotor motor_arm;
 	// engine vars
-	private int delay_between_rotations = 250; // in ms
+	private int delay_between_rotations = 500; // in ms
 	private int engine1_speed = 30; // rotation speed
 	private int engine2_speed = 45; // lift speed
 	private int engine1_acceleration = 500; // rotation acceleration
@@ -30,12 +30,10 @@ public class Arm {
 
 		motor_rotate.setSpeed(engine1_speed);
 		motor_rotate.setAcceleration(engine1_acceleration);
-		motor_rotate.setStallThreshold(engine1_stalled_error,
-				engine1_stalled_time);
+		motor_rotate.setStallThreshold(engine1_stalled_error, engine1_stalled_time);
 		motor_arm.setSpeed(engine2_speed);
 		motor_arm.setAcceleration(engine2_acceleration);
-		motor_arm
-				.setStallThreshold(engine2_stalled_error, engine2_stalled_time);
+		motor_arm.setStallThreshold(engine2_stalled_error, engine2_stalled_time);
 	}
 
 	public void rotateToInitial() {
@@ -67,12 +65,14 @@ public class Arm {
 	public int mrotate_pos() {
 		return motor_rotate.getTachoCount();
 	}
+
 	// returns the current arm motor position; needed by LCD
 	public int marm_pos() {
 		return motor_arm.getTachoCount();
 	}
 
-	// executes rotations necessary to get motor to rotate into a specific position
+	// executes rotations necessary to get motor to rotate into a specific
+	// position
 	private void rotateToPos(int posi) {
 		// posis:
 		// 1: ready for movement
@@ -80,7 +80,7 @@ public class Arm {
 		// 3: ready for unloading
 
 		RConsole.println("ACTION: Rotating to position " + posi);
-		
+
 		switch (posi) {
 		case 1:
 			m_rotateTo(motor_arm, motor_arm_initialpos);
@@ -99,9 +99,10 @@ public class Arm {
 			throw new UnsupportedOperationException();
 		}
 	}
-	
+
 	// -- functions for motor operations
-	// these are described in separate functions in order to detect and report stalls
+	// these are described in separate functions in order to detect and report
+	// stalls
 	private void m_rotateTo(NXTRegulatedMotor motor, int angle) {
 		motor.rotateTo(angle);
 		if (motor.isStalled()) {
@@ -110,6 +111,7 @@ public class Arm {
 		}
 		Delay.msDelay(delay_between_rotations);
 	}
+
 	private void m_rotate(NXTRegulatedMotor motor, int angle) {
 		motor.rotate(angle);
 		if (motor.isStalled()) {
@@ -118,7 +120,7 @@ public class Arm {
 		}
 		Delay.msDelay(delay_between_rotations);
 	}
-	
+
 	// detects which motor port the given motor is connected to
 	private char getMotorPortChar(NXTRegulatedMotor motor) {
 		if (motor == Motor.A) {
@@ -131,5 +133,5 @@ public class Arm {
 			return '-';
 		}
 	}
-	
+
 }
