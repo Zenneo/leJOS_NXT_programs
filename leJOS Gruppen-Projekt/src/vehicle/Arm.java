@@ -12,8 +12,8 @@ public class Arm {
 	private NXTRegulatedMotor motor_arm;
 	// engine vars
 	private int delay_between_rotations = 500; // in ms
-	private int engine1_speed = 30; // rotation speed
-	private int engine2_speed = 60; // lift speed
+	private int engine1_speed = 35; // rotation speed
+	private int engine2_speed = 120; // lift speed
 	private int engine1_acceleration = 500; // rotation acceleration
 	private int engine2_acceleration = 600; // lift acceleration
 	private int engine1_stalled_error = 2; // stalled error

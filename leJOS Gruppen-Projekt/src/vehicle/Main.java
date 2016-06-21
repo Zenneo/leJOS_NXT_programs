@@ -90,7 +90,7 @@ public class Main {
 				if (Pos.getVehicle_position() == delivering_station) {
 					Arms.receive_package_phase1();
 					bluecomm.waitForPackage();
-					Delay.msDelay(9000); // wait to ensure that the box has
+					Delay.msDelay(7000); // wait to ensure that the box has
 											// slided down
 
 					// receive package from station
@@ -119,7 +119,7 @@ public class Main {
 				} else if (Pos.getVehicle_position() == 3) { // Vehicle between
 																// stations
 					if (getCurrent_task() == 0) {
-						Move.moveToStation(receiving_station);
+						Move.moveToStation(delivering_station);
 					}
 					// else NOP
 

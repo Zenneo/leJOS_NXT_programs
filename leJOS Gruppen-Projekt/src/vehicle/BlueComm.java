@@ -56,8 +56,8 @@ public class BlueComm {
 				try {
 					Main.setCurrent_task(3);
 					// check if package has been received
-					//dos.writeShort(askForPackage);
-					//dos.flush();
+					dos.writeInt(askForPackage);
+					dos.flush();
 
 					attempts++;
 					RConsole.println("[BT] Attempt " + attempts);
@@ -69,7 +69,7 @@ public class BlueComm {
 						e1.printStackTrace();
 					}
 
-					if (dis.readShort() == packageWasDelivered) {
+					if (dis.readInt() == packageWasDelivered) {
 						packageReceived = true;
 						RConsole.println("[BT] Package was delivered");
 					} else {
