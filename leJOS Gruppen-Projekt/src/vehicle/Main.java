@@ -15,14 +15,15 @@ public class Main {
 	/* --Connected Peripherals-- */
 	// -bluetooth
 	// name of delivering station
-	private static final BlueComm bluecomm = new BlueComm("PFJ_Client", 5000);
+	private static final BlueComm bluecomm = new BlueComm("LiMAh", 5000);
 
 	// -sensors
 	private static final TouchSensor touch1 = new TouchSensor(SensorPort.S1);
 	private static final TouchSensor touch2 = new TouchSensor(SensorPort.S2);
 	private static final boolean touchOrientation = true; // see
 															// vehicle.position
-	private static final Position Pos = new Position(touch1, touch2, touchOrientation);
+	private static final Position Pos = new Position(touch1, touch2,
+			touchOrientation);
 
 	// -engines
 	private static final NXTRegulatedMotor engine = Motor.A; // moves vehicle
@@ -87,13 +88,14 @@ public class Main {
 			case 1:
 				// Vehicle at delivering station
 				if (Pos.getVehicle_position() == delivering_station) {
-					// bluecomm.waitForPackage();
-					Delay.msDelay(5000); // wait to ensure that the box has
+					Arms.receive_package_phase1();
+					bluecomm.waitForPackage();
+					Delay.msDelay(9000); // wait to ensure that the box has
 											// slided down
 
 					// receive package from station
 					setCurrent_task(4);
-					Arms.receive_package();
+					Arms.receive_package_phase2();
 
 					// move to receiving station
 					setCurrent_task(receiving_station);
@@ -128,8 +130,9 @@ public class Main {
 
 			// Vehicle moving forward
 			case 2:
-				if (Pos.getVehicle_position() == 1 || Pos.getVehicle_position() == 2) { // at
-																						// station
+				if (Pos.getVehicle_position() == 1
+						|| Pos.getVehicle_position() == 2) { // at
+																// station
 					setCurrent_task(3);
 					Move.stop();
 				} else if (Pos.getVehicle_position() == 3) { // in between
@@ -141,8 +144,9 @@ public class Main {
 
 			// Vehicle moving backward
 			case 3:
-				if (Pos.getVehicle_position() == 1 || Pos.getVehicle_position() == 2) { // at
-																						// station
+				if (Pos.getVehicle_position() == 1
+						|| Pos.getVehicle_position() == 2) { // at
+																// station
 					setCurrent_task(3);
 					Move.stop();
 				} else if (Pos.getVehicle_position() == 3) { // in between

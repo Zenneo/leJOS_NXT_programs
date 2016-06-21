@@ -13,13 +13,13 @@ public class Arm {
 	// engine vars
 	private int delay_between_rotations = 500; // in ms
 	private int engine1_speed = 30; // rotation speed
-	private int engine2_speed = 45; // lift speed
+	private int engine2_speed = 60; // lift speed
 	private int engine1_acceleration = 500; // rotation acceleration
 	private int engine2_acceleration = 600; // lift acceleration
 	private int engine1_stalled_error = 2; // stalled error
 	private int engine1_stalled_time = 150; // stalled time in ms
 	private int engine2_stalled_error = 3; // stalled error
-	private int engine2_stalled_time = 200; // stalled time in ms
+	private int engine2_stalled_time = 300; // stalled time in ms
 
 	private int motor_rotate_initialpos;
 	private int motor_arm_initialpos;
@@ -48,9 +48,13 @@ public class Arm {
 	}
 
 	// load vehicle
-	public void receive_package() {
-		RConsole.println("TASK: Load vehicle");
+	public void receive_package_phase1() {
+		RConsole.println("TASK: Loading vehicle phase 1");
 		rotateToPos(2);
+	}
+	
+	public void receive_package_phase2() {
+		RConsole.println("TASK: Loading vehicle phase 2");
 		rotateToPos(1);
 	}
 
@@ -58,7 +62,6 @@ public class Arm {
 	public void deliver_package() {
 		RConsole.println("TASK: Unload vehicle");
 		rotateToPos(3);
-		rotateToPos(1);
 	}
 
 	// returns the current rotate motor position; needed by LCD
@@ -88,8 +91,9 @@ public class Arm {
 			break;
 		case 2:
 			// load vehicle
-			m_rotate(motor_arm, 1000); // lower fork
+			m_rotateTo(motor_arm, motor_arm_initialpos); // ensure fork is up
 			m_rotate(motor_rotate, -900); // rotate arm to the right
+			m_rotate(motor_arm, 1000); // lower fork
 			break;
 		case 3:
 			// unload vehicle
@@ -107,7 +111,7 @@ public class Arm {
 		motor.rotateTo(angle);
 		if (motor.isStalled()) {
 			char port = getMotorPortChar(motor);
-			RConsole.println("WARNING: Motor " + port + "has stalled!");
+			RConsole.println("WARNING: Motor " + port + " has stalled!");
 		}
 		Delay.msDelay(delay_between_rotations);
 	}
@@ -116,7 +120,7 @@ public class Arm {
 		motor.rotate(angle);
 		if (motor.isStalled()) {
 			char port = getMotorPortChar(motor);
-			RConsole.println("WARNING: Motor " + port + "has stalled!");
+			RConsole.println("WARNING: Motor " + port + " has stalled!");
 		}
 		Delay.msDelay(delay_between_rotations);
 	}

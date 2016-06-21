@@ -56,14 +56,14 @@ public class BlueComm {
 				try {
 					Main.setCurrent_task(3);
 					// check if package has been received
-					dos.writeShort(askForPackage);
-					dos.flush();
+					//dos.writeShort(askForPackage);
+					//dos.flush();
 
 					attempts++;
 					RConsole.println("[BT] Attempt " + attempts);
 
 					try {
-						Thread.sleep(500);
+						Thread.sleep(250);
 					} catch (InterruptedException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -94,6 +94,7 @@ public class BlueComm {
 				}
 
 			} else {
+				attempts = 0;
 				closeConnection();
 				connectToDevice();
 			}
