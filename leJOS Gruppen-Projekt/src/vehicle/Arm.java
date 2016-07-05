@@ -12,12 +12,12 @@ public class Arm {
 	private NXTRegulatedMotor motor_arm;
 	// engine vars
 	private int delay_between_rotations = 500; // in ms
-	private int engine1_speed = 35; // rotation speed
+	private int engine1_speed = 40; // rotation speed
 	private int engine2_speed = 120; // lift speed
-	private int engine1_acceleration = 500; // rotation acceleration
+	private int engine1_acceleration = 800; // rotation acceleration
 	private int engine2_acceleration = 600; // lift acceleration
 	private int engine1_stalled_error = 2; // stalled error
-	private int engine1_stalled_time = 150; // stalled time in ms
+	private int engine1_stalled_time = 300; // stalled time in ms
 	private int engine2_stalled_error = 3; // stalled error
 	private int engine2_stalled_time = 300; // stalled time in ms
 
@@ -39,7 +39,7 @@ public class Arm {
 	public void rotateToInitial() {
 		RConsole.println("TASK: Rotate arms to initial position");
 
-		motor_rotate.rotate(1000); // rotate until stalled
+		motor_rotate.rotate(1500); // rotate until stalled
 		motor_rotate_initialpos = motor_rotate.getPosition();
 
 		motor_arm.rotate(2000); // rotate until stalled
@@ -87,17 +87,17 @@ public class Arm {
 		switch (posi) {
 		case 1:
 			m_rotateTo(motor_arm, motor_arm_initialpos);
-			m_rotateTo(motor_rotate, motor_rotate_initialpos + 1000);
+			m_rotateTo(motor_rotate, motor_rotate_initialpos + 1100);
 			break;
 		case 2:
 			// load vehicle
 			m_rotateTo(motor_arm, motor_arm_initialpos); // ensure fork is up
-			m_rotate(motor_rotate, -900); // rotate arm to the right
+			m_rotate(motor_rotate, -1000); // rotate arm to the right
 			m_rotate(motor_arm, 1000); // lower fork
 			break;
 		case 3:
 			// unload vehicle
-			m_rotate(motor_arm, 900);
+			m_rotate(motor_arm, 677);
 			break;
 		default:
 			throw new UnsupportedOperationException();

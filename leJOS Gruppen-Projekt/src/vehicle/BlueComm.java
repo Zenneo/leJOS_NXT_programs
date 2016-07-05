@@ -29,6 +29,7 @@ public class BlueComm {
 	DataOutputStream dos;
 	// status vars
 	boolean btcIsEstablished = false;
+	boolean packageReceived = false;
 
 	public BlueComm(String btname, int waitBetweenSends) {
 		this.btname = btname;
@@ -41,7 +42,6 @@ public class BlueComm {
 
 		// reconnect or connect if not done already
 		connectToDevice();
-		boolean packageReceived = false;
 		Main.setCurrent_task(3);
 		try {
 			Thread.sleep(500);
@@ -56,8 +56,8 @@ public class BlueComm {
 				try {
 					Main.setCurrent_task(3);
 					// check if package has been received
-					dos.writeInt(askForPackage);
-					dos.flush();
+					// dos.writeInt(askForPackage);
+					// dos.flush();
 
 					attempts++;
 					RConsole.println("[BT] Attempt " + attempts);
@@ -123,14 +123,16 @@ public class BlueComm {
 				// given device name is unknown
 				if (btrd == null) {
 					RConsole.println("[BT] Device " + btname + " unknown!");
-					throw new BluetoothStateException("Device " + btname + " unknown!");
+					throw new BluetoothStateException("Device " + btname
+							+ " unknown!");
 				}
 
 				btc = Bluetooth.connect(btrd);
 				// connection failed
 				if (btc == null) {
 					RConsole.println("[BT] Can't connect to " + btname + "!");
-					throw new BluetoothStateException("Can't connect to " + btname + "!");
+					throw new BluetoothStateException("Can't connect to "
+							+ btname + "!");
 				}
 
 				dis = btc.openDataInputStream();
@@ -149,6 +151,13 @@ public class BlueComm {
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			}
+
+			// skip check through key combo
+			if (Button.LEFT.isDown()) {
+				btcIsEstablished = true;
+				packageReceived = true;
+				RConsole.println("[BT] User skipped check");
 			}
 		}
 
@@ -170,6 +179,8 @@ public class BlueComm {
 		} catch (NullPointerException e2) {
 			// e2.printStackTrace();
 		}
+
+		btcIsEstablished = false;
 
 		dis = null;
 		dos = null;
