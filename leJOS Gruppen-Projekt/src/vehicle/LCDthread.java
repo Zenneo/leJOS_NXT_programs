@@ -1,8 +1,6 @@
 package vehicle;
 
 import lejos.nxt.Battery;
-import lejos.nxt.Motor;
-import lejos.nxt.NXTRegulatedMotor;
 
 // This thread draws the current status onto the screen
 public class LCDthread extends Thread {

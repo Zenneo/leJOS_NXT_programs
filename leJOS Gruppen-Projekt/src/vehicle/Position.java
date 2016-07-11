@@ -30,8 +30,7 @@ public class Position {
 	private TouchSensor touch2;
 
 	// Constructor
-	public Position(TouchSensor touch1, TouchSensor touch2,
-			boolean touchOrientation) {
+	public Position(TouchSensor touch1, TouchSensor touch2, boolean touchOrientation) {
 		super();
 		this.touchOrientation = touchOrientation;
 		this.touch1 = touch1;
@@ -44,13 +43,11 @@ public class Position {
 		// DEBUG MSG
 		// RConsole.println("ACTION: Checking vehicle position...");
 
-		if (touch1.isPressed() == touchOrientation
-				&& touch2.isPressed() != touchOrientation) { // station
-																// 1
+		if (touch1.isPressed() == touchOrientation && touch2.isPressed() != touchOrientation) { // station
+																								// 1
 			vehicle_position = 1;
-		} else if (touch2.isPressed() == touchOrientation
-				&& touch1.isPressed() != touchOrientation) { // station
-																// 2
+		} else if (touch2.isPressed() == touchOrientation && touch1.isPressed() != touchOrientation) { // station
+																										// 2
 			vehicle_position = 2;
 		} else if (!touch1.isPressed() && !touch2.isPressed()) {
 			vehicle_position = 3;

@@ -123,16 +123,14 @@ public class BlueComm {
 				// given device name is unknown
 				if (btrd == null) {
 					RConsole.println("[BT] Device " + btname + " unknown!");
-					throw new BluetoothStateException("Device " + btname
-							+ " unknown!");
+					throw new BluetoothStateException("Device " + btname + " unknown!");
 				}
 
 				btc = Bluetooth.connect(btrd);
 				// connection failed
 				if (btc == null) {
 					RConsole.println("[BT] Can't connect to " + btname + "!");
-					throw new BluetoothStateException("Can't connect to "
-							+ btname + "!");
+					throw new BluetoothStateException("Can't connect to " + btname + "!");
 				}
 
 				dis = btc.openDataInputStream();

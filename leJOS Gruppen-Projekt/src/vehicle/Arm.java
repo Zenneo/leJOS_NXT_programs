@@ -52,7 +52,7 @@ public class Arm {
 		RConsole.println("TASK: Loading vehicle phase 1");
 		rotateToPos(2);
 	}
-	
+
 	public void receive_package_phase2() {
 		RConsole.println("TASK: Loading vehicle phase 2");
 		rotateToPos(1);
