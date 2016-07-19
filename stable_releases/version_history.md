@@ -14,5 +14,6 @@
 ##Vehicle.Main
 ###Vehicle-v2_0.nxj
 - Final version, ready for deployment
+
 ###Vehicle-v1_0.nxj
 - Released 2016-03-14
