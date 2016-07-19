@@ -8,18 +8,18 @@ import lejos.util.Delay;
 public class Arm {
 
 	/* --Engines */
-	private NXTRegulatedMotor motor_rotate;
-	private NXTRegulatedMotor motor_arm;
+	private NXTRegulatedMotor motor_rotate; // ^= engine_rot
+	private NXTRegulatedMotor motor_arm; // ^= engine_arm
 	// engine vars
 	private int delay_between_rotations = 500; // in ms
-	private int engine1_speed = 40; // rotation speed
-	private int engine2_speed = 120; // lift speed
-	private int engine1_acceleration = 800; // rotation acceleration
-	private int engine2_acceleration = 600; // lift acceleration
-	private int engine1_stalled_error = 2; // stalled error
-	private int engine1_stalled_time = 300; // stalled time in ms
-	private int engine2_stalled_error = 3; // stalled error
-	private int engine2_stalled_time = 300; // stalled time in ms
+	private int engine_rot_speed = 45; // rotation speed
+	private int engine_arm_speed = 130; // lift speed
+	private int engine_rot_acceleration = 800; // rotation acceleration
+	private int engine_arm_acceleration = 600; // lift acceleration
+	private int engine_rot_stalled_error = 2; // stalled error
+	private int engine_rot_stalled_time = 400; // stalled time in ms
+	private int engine_arm_stalled_error = 4; // stalled error
+	private int engine_arm_stalled_time = 400; // stalled time in ms
 
 	private int motor_rotate_initialpos;
 	private int motor_arm_initialpos;
@@ -28,12 +28,12 @@ public class Arm {
 		motor_rotate = motor_rot;
 		motor_arm = motor_ar;
 
-		motor_rotate.setSpeed(engine1_speed);
-		motor_rotate.setAcceleration(engine1_acceleration);
-		motor_rotate.setStallThreshold(engine1_stalled_error, engine1_stalled_time);
-		motor_arm.setSpeed(engine2_speed);
-		motor_arm.setAcceleration(engine2_acceleration);
-		motor_arm.setStallThreshold(engine2_stalled_error, engine2_stalled_time);
+		motor_rotate.setSpeed(engine_rot_speed);
+		motor_rotate.setAcceleration(engine_rot_acceleration);
+		motor_rotate.setStallThreshold(engine_rot_stalled_error, engine_rot_stalled_time);
+		motor_arm.setSpeed(engine_arm_speed);
+		motor_arm.setAcceleration(engine_arm_acceleration);
+		motor_arm.setStallThreshold(engine_arm_stalled_error, engine_arm_stalled_time);
 	}
 
 	public void rotateToInitial() {
@@ -92,8 +92,8 @@ public class Arm {
 		case 2:
 			// load vehicle
 			m_rotateTo(motor_arm, motor_arm_initialpos); // ensure fork is up
-			m_rotate(motor_rotate, -1000); // rotate arm to the right
 			m_rotate(motor_arm, 1000); // lower fork
+			m_rotate(motor_rotate, -1000); // rotate arm to the right
 			break;
 		case 3:
 			// unload vehicle
