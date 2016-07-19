@@ -97,6 +97,7 @@ public class Arm {
 			break;
 		case 3:
 			// unload vehicle
+			m_rotate(motor_rotate, 1000);
 			m_rotate(motor_arm, 677);
 			break;
 		default:
