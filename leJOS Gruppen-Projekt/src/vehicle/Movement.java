@@ -75,6 +75,7 @@ public class Movement {
 		// DEBUG MSG
 		RConsole.println("ACTION: Stopping vehicle... ");
 		engine.stop();
+		engine.flt();
 		vehicle_movement = 1;
 	}
 

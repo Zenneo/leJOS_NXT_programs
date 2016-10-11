@@ -16,10 +16,18 @@ public class Arm {
 	private int engine_arm_speed = 130; // lift speed
 	private int engine_rot_acceleration = 800; // rotation acceleration
 	private int engine_arm_acceleration = 600; // lift acceleration
-	private int engine_rot_stalled_error = 2; // stalled error
-	private int engine_rot_stalled_time = 400; // stalled time in ms
-	private int engine_arm_stalled_error = 4; // stalled error
-	private int engine_arm_stalled_time = 400; // stalled time in ms
+	
+	// stall values
+	// --loading
+	private int engine_rot_loading_stalled_error = 5; // stalled error
+	private int engine_rot_loading_stalled_time = 500; // stalled time in ms
+	private int engine_arm_loading_stalled_error = 7; // stalled error
+	private int engine_arm_loading_stalled_time = 500; // stalled time in ms
+	// --unloading
+	private int engine_rot_unloading_stalled_error = 3; // stalled error
+	private int engine_rot_unloading_stalled_time = 400; // stalled time in ms
+	private int engine_arm_unloading_stalled_error = 5; // stalled error
+	private int engine_arm_unloading_stalled_time = 400; // stalled time in ms
 
 	private int motor_rotate_initialpos;
 	private int motor_arm_initialpos;
@@ -30,15 +38,39 @@ public class Arm {
 
 		motor_rotate.setSpeed(engine_rot_speed);
 		motor_rotate.setAcceleration(engine_rot_acceleration);
-		motor_rotate.setStallThreshold(engine_rot_stalled_error, engine_rot_stalled_time);
+		
 		motor_arm.setSpeed(engine_arm_speed);
 		motor_arm.setAcceleration(engine_arm_acceleration);
-		motor_arm.setStallThreshold(engine_arm_stalled_error, engine_arm_stalled_time);
+		
 	}
 
+	public void setStallThresholds ( int profile_id)
+	{
+		if ( profile_id == 1)
+		{
+			// for loading phase
+			motor_rotate.setStallThreshold(engine_rot_loading_stalled_error,
+					engine_rot_loading_stalled_time);
+			motor_arm.setStallThreshold(engine_arm_loading_stalled_error,
+					engine_arm_loading_stalled_time);
+		}
+		else if ( profile_id == 2)
+		{
+			// for unloading phase
+			motor_rotate.setStallThreshold(engine_rot_unloading_stalled_error,
+					engine_rot_unloading_stalled_time);
+			motor_arm.setStallThreshold(engine_arm_unloading_stalled_error,
+					engine_arm_unloading_stalled_time);
+		}
+		else {
+			throw new UnsupportedOperationException("Unknowwn freshhold profile id");
+		}
+	}
+	
 	public void rotateToInitial() {
 		RConsole.println("TASK: Rotate arms to initial position");
 
+		setStallThresholds( 1 );
 		motor_rotate.rotate(1500); // rotate until stalled
 		motor_rotate_initialpos = motor_rotate.getPosition();
 
@@ -86,17 +118,20 @@ public class Arm {
 
 		switch (posi) {
 		case 1:
+			setStallThresholds( 1 );
 			m_rotateTo(motor_arm, motor_arm_initialpos);
 			m_rotateTo(motor_rotate, motor_rotate_initialpos + 1100);
 			break;
 		case 2:
 			// load vehicle
+			setStallThresholds( 1 );
 			m_rotateTo(motor_arm, motor_arm_initialpos); // ensure fork is up
 			m_rotate(motor_arm, 1000); // lower fork
 			m_rotate(motor_rotate, -1000); // rotate arm to the right
 			break;
 		case 3:
 			// unload vehicle
+			setStallThresholds( 2 );
 			m_rotate(motor_rotate, 1000);
 			m_rotate(motor_arm, 677);
 			break;
