@@ -19,15 +19,15 @@ public class Arm {
 	
 	// stall values
 	// --loading
-	private int engine_rot_loading_stalled_error = 5; // stalled error
-	private int engine_rot_loading_stalled_time = 500; // stalled time in ms
-	private int engine_arm_loading_stalled_error = 7; // stalled error
-	private int engine_arm_loading_stalled_time = 500; // stalled time in ms
+	private int engine_rot_loading_stalled_error = 3; // stalled error
+	private int engine_rot_loading_stalled_time = 750; // stalled time in ms
+	private int engine_arm_loading_stalled_error = 2; // stalled error
+	private int engine_arm_loading_stalled_time = 750; // stalled time in ms
 	// --unloading
-	private int engine_rot_unloading_stalled_error = 3; // stalled error
-	private int engine_rot_unloading_stalled_time = 400; // stalled time in ms
-	private int engine_arm_unloading_stalled_error = 5; // stalled error
-	private int engine_arm_unloading_stalled_time = 400; // stalled time in ms
+	private int engine_rot_unloading_stalled_error = 5; // stalled error
+	private int engine_rot_unloading_stalled_time = 750; // stalled time in ms
+	private int engine_arm_unloading_stalled_error = 6; // stalled error
+	private int engine_arm_unloading_stalled_time = 750; // stalled time in ms
 
 	private int motor_rotate_initialpos;
 	private int motor_arm_initialpos;
@@ -127,12 +127,13 @@ public class Arm {
 			setStallThresholds( 1 );
 			m_rotateTo(motor_arm, motor_arm_initialpos); // ensure fork is up
 			m_rotate(motor_arm, 1000); // lower fork
+			m_rotate(motor_arm, -304);
 			m_rotate(motor_rotate, -1000); // rotate arm to the right
 			break;
 		case 3:
 			// unload vehicle
 			setStallThresholds( 2 );
-			m_rotate(motor_rotate, 1000);
+			m_rotate(motor_rotate, 500);
 			m_rotate(motor_arm, 677);
 			break;
 		default:
