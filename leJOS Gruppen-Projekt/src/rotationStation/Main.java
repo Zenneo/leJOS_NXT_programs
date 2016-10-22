@@ -7,6 +7,7 @@ import lejos.nxt.NXTRegulatedMotor;
 import lejos.nxt.SensorPort;
 import lejos.nxt.TouchSensor;
 import lejos.nxt.comm.RConsole;
+import lejos.util.Delay;
 
 public class Main {
 
@@ -26,6 +27,13 @@ public class Main {
 	// 1 - rotate to pos 1
 	// 2 - rotate to pos 2
 	// 3 - wait for sensors
+
+	/* --Runtime constants-- */
+	// time in ms between sensor checks
+	private static final int sleepSensorCheck = 500;
+	// time in ms to wait after vehicle left
+	private static final int sleepVehicleLeave = 3000;
+
 	public static int getCurrent_task() {
 		return current_task;
 	}
@@ -35,7 +43,7 @@ public class Main {
 	}
 
 	private static Thread LCDthreadobj = new LCDthread(motor);
-	
+
 	/**
 	 * @param args
 	 * @throws InterruptedException
@@ -43,17 +51,31 @@ public class Main {
 	public static void main(String[] args) throws InterruptedException {
 		// ask for debugging mode
 		enterDebuggingMode();
-		
+
 		// LCD thread
 		LCDthreadobj.setPriority(Thread.NORM_PRIORITY - 1);
 		LCDthreadobj.start();
-		
+
 		// main loop
 		while (true) {
-			// TODO finish this loo
-			// whenever vehicle arrived
+			// TODO finish this loop
+			// once vehicle arrived
 			if (touch1.isPressed()) {
-				// 
+
+				// wait for vehicle to leave
+				while (touch1.isPressed()) {
+					Delay.msDelay(sleepSensorCheck);
+				}
+				// delay afterwards
+				Delay.msDelay(sleepVehicleLeave);
+
+				// now do the U-Turn
+				motor.doUTurn();
+			}
+
+			// if vehicle is not there yet
+			else {
+				Delay.msDelay(sleepSensorCheck);
 			}
 		}
 
@@ -69,7 +91,7 @@ public class Main {
 		LCD.drawString("Skip timer with", 0, 3);
 		LCD.drawString("right.", 0, 4);
 
-		for (int i = 10; i > 0; i--) {
+		for (int i = 5; i > 0; i--) {
 			LCD.clear(6);
 			LCD.drawString(i + " seconds left", 0, 6);
 			if (Button.RIGHT.isDown()) {

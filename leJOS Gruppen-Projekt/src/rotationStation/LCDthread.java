@@ -24,22 +24,20 @@ public class LCDthread extends Thread {
 			arm_test.LCDscreens.checkedDraw("--- Rotator  ---", 0, 0);
 
 			// line 1
-			arm_test.LCDscreens.checkedDraw("Tsk: " + taskMsg(Main.getCurrent_task()), 0, 1);
 
 			// line 2
-			arm_test.LCDscreens.checkedDraw("Pos: " + motors.m_pos(), 0, 2);
+			arm_test.LCDscreens.checkedDraw("Tsk: " + taskMsg(Main.getCurrent_task()), 0, 2);
 
 			// line 3
-
+			arm_test.LCDscreens.checkedDraw("MPos: " + motors.m_pos(), 0, 3);
 
 			// line 4
-
+			arm_test.LCDscreens.checkedDraw("Orient: " + orientationMsg(motors.is0degree()), 0, 4);
 
 			// line 5
-
+			arm_test.LCDscreens.checkedDraw("Stalled: " + motors.hasStalled(), 0, 5);
 
 			// line 6
-
 
 			// line 7
 			arm_test.LCDscreens.checkedDraw("Bat-Volt: " + Battery.getVoltage(), 0, 7);
@@ -60,7 +58,7 @@ public class LCDthread extends Thread {
 
 		switch (taskint) {
 		case 0:
-			return "Initialize";
+			return "Initialise";
 		case 1:
 			return "Rotate Pos1";
 		case 2:
@@ -70,8 +68,15 @@ public class LCDthread extends Thread {
 		default:
 			throw new UnsupportedOperationException("Unknown task message ID");
 		}
-	
 
+	}
+
+	private String orientationMsg(boolean isNullDegree) {
+		if (isNullDegree) {
+			return "1";
+		} else {
+			return "2";
+		}
 	}
 
 }

@@ -8,26 +8,26 @@ import lejos.util.Delay;
 public class Arm {
 
 	/* --Engines */
-	private NXTRegulatedMotor motor_rotate; // ^= engine_rot
-	private NXTRegulatedMotor motor_arm; // ^= engine_arm
+	private final NXTRegulatedMotor motor_rotate; // ^= engine_rot
+	private final NXTRegulatedMotor motor_arm; // ^= engine_arm
 	// engine vars
-	private int delay_between_rotations = 500; // in ms
-	private int engine_rot_speed = 45; // rotation speed
-	private int engine_arm_speed = 130; // lift speed
-	private int engine_rot_acceleration = 800; // rotation acceleration
-	private int engine_arm_acceleration = 600; // lift acceleration
+	private final int delay_between_rotations = 500; // in ms
+	private final int engine_rot_speed = 45; // rotation speed
+	private final int engine_arm_speed = 130; // lift speed
+	private final int engine_rot_acceleration = 800; // rotation acceleration
+	private final int engine_arm_acceleration = 600; // lift acceleration
 	
 	// stall values
 	// --loading
-	private int engine_rot_loading_stalled_error = 3; // stalled error
-	private int engine_rot_loading_stalled_time = 750; // stalled time in ms
-	private int engine_arm_loading_stalled_error = 2; // stalled error
-	private int engine_arm_loading_stalled_time = 750; // stalled time in ms
+	private final int engine_rot_loading_stalled_error = 3; // stalled error
+	private final int engine_rot_loading_stalled_time = 750; // stalled time in ms
+	private final int engine_arm_loading_stalled_error = 2; // stalled error
+	private final int engine_arm_loading_stalled_time = 750; // stalled time in ms
 	// --unloading
-	private int engine_rot_unloading_stalled_error = 5; // stalled error
-	private int engine_rot_unloading_stalled_time = 750; // stalled time in ms
-	private int engine_arm_unloading_stalled_error = 6; // stalled error
-	private int engine_arm_unloading_stalled_time = 750; // stalled time in ms
+	private final int engine_rot_unloading_stalled_error = 5; // stalled error
+	private final int engine_rot_unloading_stalled_time = 750; // stalled time in ms
+	private final int engine_arm_unloading_stalled_error = 6; // stalled error
+	private final int engine_arm_unloading_stalled_time = 750; // stalled time in ms
 
 	private int motor_rotate_initialpos;
 	private int motor_arm_initialpos;
