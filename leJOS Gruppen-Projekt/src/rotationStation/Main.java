@@ -61,13 +61,16 @@ public class Main {
 			// TODO finish this loop
 			// once vehicle arrived
 			if (touch1.isPressed()) {
-
+				RConsole.println("STATUS: Vehicle arrived");
+				
 				// wait for vehicle to leave
 				while (touch1.isPressed()) {
 					Delay.msDelay(sleepSensorCheck);
 				}
 				// delay afterwards
 				Delay.msDelay(sleepVehicleLeave);
+				
+				RConsole.println("STATUS: Vehicle left");
 
 				// now do the U-Turn
 				motor.doUTurn();

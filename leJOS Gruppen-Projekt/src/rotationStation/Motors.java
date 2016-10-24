@@ -20,6 +20,7 @@ public class Motors {
 	/* --Status variables-- */
 	// keeps track whether rotate to 0 degrees
 	private boolean is0degree;
+
 	public boolean is0degree() {
 		return is0degree;
 	}
@@ -49,6 +50,7 @@ public class Motors {
 	public void initMotor() {
 		// resets motor to default position
 		// rotate unitl stalled
+		RConsole.println("ACTION: Init motor");
 		motor1.rotate(-1000);
 		initialPos = m_pos();
 		is0degree = true;
@@ -58,14 +60,17 @@ public class Motors {
 	public void doUTurn() {
 		// this function rotates the motor by 180 degree.
 		// the direction changes everytime
+		RConsole.println("ACTION: Do U-Turn");
 
 		// if 0 degree pos
 		if (is0degree) {
+			RConsole.println("STATUS: Rotating from 0 to +180 degrees");
 			m_rotate(180);
 			is0degree = false;
 		}
 		// else if 180 degree pos
 		else {
+			RConsole.println("STATUS: Rotating from +180 to 0 degrees");
 			m_rotateTo(initialPos);
 			is0degree = true;
 		}
