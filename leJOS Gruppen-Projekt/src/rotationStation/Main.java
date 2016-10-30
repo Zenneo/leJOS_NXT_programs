@@ -1,5 +1,6 @@
 package rotationStation;
 
+import vehicle.ExitListener;
 import lejos.nxt.Button;
 import lejos.nxt.LCD;
 import lejos.nxt.Motor;
@@ -49,6 +50,9 @@ public class Main {
 	 * @throws InterruptedException
 	 */
 	public static void main(String[] args) throws InterruptedException {
+		// set up exit listener
+		Button.ESCAPE.addButtonListener(new ExitListener());
+		
 		// ask for debugging mode
 		enterDebuggingMode();
 
@@ -56,23 +60,29 @@ public class Main {
 		LCDthreadobj.setPriority(Thread.NORM_PRIORITY - 1);
 		LCDthreadobj.start();
 
+		// initialise
+		setCurrent_task(0);
+		motor.initMotor();
+
 		// main loop
 		while (true) {
 			// TODO finish this loop
+			setCurrent_task(3);
 			// once vehicle arrived
 			if (touch1.isPressed()) {
 				RConsole.println("STATUS: Vehicle arrived");
-				
+
 				// wait for vehicle to leave
 				while (touch1.isPressed()) {
 					Delay.msDelay(sleepSensorCheck);
 				}
 				// delay afterwards
 				Delay.msDelay(sleepVehicleLeave);
-				
+
 				RConsole.println("STATUS: Vehicle left");
 
 				// now do the U-Turn
+				setCurrent_task(1);
 				motor.doUTurn();
 			}
 
