@@ -125,8 +125,8 @@ public class Arm {
 		case 2:
 			// load vehicle
 			setStallThresholds(1);
-			m_rotate(motor_arm, motor_arm_initialpos + 1000); // lower fork
-			m_rotate(motor_arm, -304);
+			m_rotateTo(motor_arm, motor_arm_initialpos + 1000); // lower fork
+			m_rotate(motor_arm, -315); // upper fork 
 			m_rotate(motor_rotate, -1000); // rotate arm to the right
 			break;
 		case 3:

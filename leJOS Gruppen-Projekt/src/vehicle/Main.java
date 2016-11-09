@@ -15,7 +15,7 @@ public class Main {
 	/* --Connected Peripherals-- */
 	// -bluetooth
 	// name of delivering station
-	private static final BlueComm bluecomm = new BlueComm("LiMAh", 5000);
+	private static final BlueComm bluecomm = new BlueComm("verladen", 5000);
 
 	// -sensors
 	private static final TouchSensor touch1 = new TouchSensor(SensorPort.S1);
