@@ -103,8 +103,6 @@ public class Main {
 				}
 				// Vehicle at receiving station
 				else if (Pos.getVehicle_position() == receiving_station) {
-					// TODO check if package can be delivered
-
 					// deliver package to station
 					setCurrent_task(5);
 					Arms.deliver_package();
