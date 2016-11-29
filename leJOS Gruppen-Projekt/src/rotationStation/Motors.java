@@ -11,8 +11,10 @@ public class Motors {
 	// -delays
 	private final int delay_between_rotations = 500; // in ms
 	// -motor speed and acceleration
-	private final int m_accel = 100;
-	private final int m_speed = 30;
+	private final int m_init_accel = 1000;
+	private final int m_init_speed = 50;
+	private final int m_accel = 400;
+	private final int m_speed = 125;
 	// -stall values
 	private final int stallError = 2;
 	private final int stallTime = 60;
@@ -42,8 +44,6 @@ public class Motors {
 
 		// set motor constants
 		this.motor1.setStallThreshold(stallError, stallTime);
-		this.motor1.setSpeed(m_speed);
-		this.motor1.setAcceleration(m_accel);
 
 	}
 
@@ -51,10 +51,18 @@ public class Motors {
 		// resets motor to default position
 		// rotate unitl stalled
 		RConsole.println("ACTION: Init motor");
-		motor1.rotate(-7000);
+		
+		// set speed and accel for init
+		motor1.setSpeed(m_init_speed);
+		motor1.setAcceleration(m_init_accel);
+		
+		motor1.rotate(1000);
 		initialPos = m_pos();
 		is0degree = true;
-
+		
+		// set speed and accel for main
+		motor1.setSpeed(m_speed);
+		motor1.setAcceleration(m_accel);
 	}
 
 	public void doUTurn() {
@@ -65,7 +73,7 @@ public class Motors {
 		// if 0 degree pos
 		if (is0degree) {
 			RConsole.println("STATUS: Rotating from 0 to +180 degrees");
-			m_rotate(490);
+			m_rotate(-450);
 			is0degree = false;
 		}
 		// else if 180 degree pos
