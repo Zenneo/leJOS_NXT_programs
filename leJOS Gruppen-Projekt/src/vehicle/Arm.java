@@ -8,35 +8,35 @@ import lejos.util.Delay;
 public class Arm {
 
 	/* --Engines */
-	private final NXTRegulatedMotor motor_rotate; // ^= engine_rot
-	private final NXTRegulatedMotor motor_arm; // ^= engine_arm
+	private final NXTRegulatedMotor motor_rotate; // ^= rotation of the arm; engine_rot as a engine variable
+	private final NXTRegulatedMotor motor_arm; // ^= elevation of the arm; engine_arm as a engine variable
 	// engine vars
-	private final int delay_between_rotations = 500; // in ms
+	private final int delay_between_rotations = 500; // in ms 
 	private final int engine_rot_speed = 45; // rotation speed
 	private final int engine_arm_speed = 130; // lift speed
 	private final int engine_rot_acceleration = 800; // rotation acceleration
 	private final int engine_arm_acceleration = 600; // lift acceleration
 
 	// stall values
-	// --loading
-	private final int engine_rot_loading_stalled_error = 3; // stalled error
-	private final int engine_rot_loading_stalled_time = 750; // stalled time in
-																// ms
-	private final int engine_arm_loading_stalled_error = 2; // stalled error
-	private final int engine_arm_loading_stalled_time = 750; // stalled time in
-																// ms
-	// --unloading
-	private final int engine_rot_unloading_stalled_error = 5; // stalled error
-	private final int engine_rot_unloading_stalled_time = 750; // stalled time
-																// in ms
-	private final int engine_arm_unloading_stalled_error = 6; // stalled error
-	private final int engine_arm_unloading_stalled_time = 750; // stalled time
-																// in ms
+	// --while loading the box
+	private final int engine_rot_loading_stalled_error = 3; // stalled error in degrees (divergence between expected and actual value)
+	private final int engine_rot_loading_stalled_time = 750; // stalled time while error occurs in ms
+																
+	private final int engine_arm_loading_stalled_error = 2; // stalled error in degrees (divergence between expected and actual value)
+	private final int engine_arm_loading_stalled_time = 750; // stalled time while error occurs in ms
+																
+	// --while unloading the box
+	private final int engine_rot_unloading_stalled_error = 5; // stalled error in degrees (divergence between expected and actual value)
+	private final int engine_rot_unloading_stalled_time = 750; // stalled time while error occurs in ms
+																
+	private final int engine_arm_unloading_stalled_error = 6; // stalled error in degrees (divergence between expected and actual value)
+	private final int engine_arm_unloading_stalled_time = 750; // stalled time while error occurs in ms
+																
 
-	private int motor_rotate_initialpos;
-	private int motor_arm_initialpos;
+	private int motor_rotate_initialpos; 			//position of the arm-rotation after the initailization in degrees
+	private int motor_arm_initialpos;			//position of the arm-elevation after the initailization in degrees
 
-	public Arm(NXTRegulatedMotor motor_rot, NXTRegulatedMotor motor_ar) {
+	public Arm(NXTRegulatedMotor motor_rot, NXTRegulatedMotor motor_ar) { //constructor which is called by the Main class
 		motor_rotate = motor_rot;
 		motor_arm = motor_ar;
 
@@ -48,15 +48,16 @@ public class Arm {
 
 	}
 
-	public void setStallThresholds(int profile_id) {
-		if (profile_id == 1) {
-			// for loading phase
+	public void setStallThresholds(int profile_id) {			//method which sets thresholds individualy for both motors
+										//depending on the current station
+		if (profile_id == 1) {						
+			// setting stall errors and times for loading phase
 			motor_rotate.setStallThreshold(engine_rot_loading_stalled_error,
 					engine_rot_loading_stalled_time);
 			motor_arm.setStallThreshold(engine_arm_loading_stalled_error,
 					engine_arm_loading_stalled_time);
 		} else if (profile_id == 2) {
-			// for unloading phase
+			// setting stall errors and times for unloading phase
 			motor_rotate.setStallThreshold(engine_rot_unloading_stalled_error,
 					engine_rot_unloading_stalled_time);
 			motor_arm.setStallThreshold(engine_arm_unloading_stalled_error,
@@ -67,7 +68,7 @@ public class Arm {
 		}
 	}
 
-	public void rotateToInitial() {
+	public void rotateToInitial() {						// initial positions of the robot´s arm as a reference value for further movement
 		RConsole.println("TASK: Rotate arms to initial position");
 
 		setStallThresholds(1);
@@ -105,7 +106,7 @@ public class Arm {
 	public int marm_pos() {
 		return motor_arm.getTachoCount();
 	}
-
+   
 	// executes rotations necessary to get motor to rotate into a specific
 	// position
 	private void rotateToPos(int posi) {
