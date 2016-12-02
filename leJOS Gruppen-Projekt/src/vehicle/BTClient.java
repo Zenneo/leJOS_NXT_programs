@@ -1,7 +1,6 @@
 package vehicle;
 
 import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 
 import javax.bluetooth.BluetoothStateException;
@@ -12,26 +11,24 @@ import lejos.nxt.comm.BTConnection;
 import lejos.nxt.comm.Bluetooth;
 import lejos.nxt.comm.RConsole;
 
-public class BlueComm {
+public class BTClient {
 
 	// bluetooth codes
-	final short askForPackage = 2;
-	final short packageWasDelivered = 7;
+	private final int packageWasDelivered = 7;
 	// constant vars
-	final String btname;
-	final int waitBetweenSends;
-	final int maxSendAttempts = 5;
+	private final int waitBetweenSends;
+	private final int maxSendAttempts = 5;
 
 	// bluetooth vars
-	RemoteDevice btrd;
-	BTConnection btc;
-	DataInputStream dis;
-	DataOutputStream dos;
+	private final String btname;
+	private RemoteDevice btrd;
+	private BTConnection btc;
+	private DataInputStream dis;
 	// status vars
-	boolean btcIsEstablished = false;
-	boolean packageReceived = false;
+	private boolean btcIsEstablished = false;
+	private boolean packageReceived = false;
 
-	public BlueComm(String btname, int waitBetweenSends) {
+	public BTClient(String btname, int waitBetweenSends) {
 		this.btname = btname;
 		this.waitBetweenSends = waitBetweenSends;
 	}
@@ -134,7 +131,6 @@ public class BlueComm {
 				}
 
 				dis = btc.openDataInputStream();
-				dos = btc.openDataOutputStream();
 
 				RConsole.println("[BT] Connected to " + btname);
 				btcIsEstablished = true;
@@ -170,7 +166,6 @@ public class BlueComm {
 		}
 		try {
 			dis.close();
-			dos.close();
 			btc.close();
 		} catch (IOException e) {
 			// e.printStackTrace();
@@ -181,9 +176,8 @@ public class BlueComm {
 		btcIsEstablished = false;
 
 		dis = null;
-		dos = null;
 		btc = null;
 
-		RConsole.println("[BT] Connected was closed!");
+		RConsole.println("[BT] Connection was closed.");
 	}
 }

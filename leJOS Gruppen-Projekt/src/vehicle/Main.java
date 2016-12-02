@@ -14,9 +14,11 @@ public class Main {
 
 	/* --Connected Peripherals-- */
 	// -bluetooth
-	// name of delivering station
-	private static final BlueComm bluecomm = new BlueComm("verladen", 5000);
-
+	// delivering station
+	private static final BTClient BTfactory = new BTClient("verladen", 2000);
+	// rotation station
+	private static final BTClient BTrotStat = new BTClient("rotationStation", 500);
+	
 	// -sensors
 	private static final TouchSensor touch1 = new TouchSensor(SensorPort.S1);
 	private static final TouchSensor touch2 = new TouchSensor(SensorPort.S2);
@@ -71,10 +73,10 @@ public class Main {
 		// ask for debugging mode
 		enterDebuggingMode();
 
-		LCDthreadobj.setPriority(Thread.NORM_PRIORITY - 1);
+		LCDthreadobj.setPriority(Thread.NORM_PRIORITY - 2);
 		LCDthreadobj.start();
 
-		// vehicle initialization
+		// vehicle initialisation
 		setCurrent_task(0);
 		Arms.rotateToInitial();
 
@@ -88,7 +90,7 @@ public class Main {
 				// Vehicle at delivering station
 				if (Pos.getVehicle_position() == delivering_station) {
 					Arms.receive_package_phase1();
-					bluecomm.waitForPackage();
+					BTfactory.waitForPackage();
 					Delay.msDelay(1000); // wait to ensure that the box has
 											// slided down
 
@@ -96,6 +98,9 @@ public class Main {
 					setCurrent_task(4);
 					Arms.receive_package_phase2();
 
+					// wait until rotation station was freed
+					BTrotStat.waitForPackage();
+					
 					// move to receiving station
 					setCurrent_task(receiving_station);
 					Move.moveToStation(receiving_station);
