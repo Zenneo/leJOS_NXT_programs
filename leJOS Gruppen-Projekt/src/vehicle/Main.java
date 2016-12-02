@@ -99,6 +99,7 @@ public class Main {
 					Arms.receive_package_phase2();
 
 					// wait until rotation station was freed
+					setCurrent_task(6);
 					BTrotStat.waitForPackage();
 					
 					// move to receiving station

@@ -75,6 +75,8 @@ public class LCDthread extends Thread {
 			return "Load pkg";
 		case 5:
 			return "Unload pkg";
+		case 6:
+			return "Check free";
 		case 10:
 			return "BT connect";
 		default:
