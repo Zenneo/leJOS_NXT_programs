@@ -29,6 +29,27 @@ Contains multiple methods for receiving user input through a GUI. The methods in
 * `MultipleChoice(String option1, String option2, String option3, String option4, String option5, int initial)` returns a number based on the user's choice. The minimum amount of options that has to be entered is 2. The maximum string length of the option is 14.
 * `askForConfirmation(String custom_msg1, String custom_msg2, String custom_msg3, String custom_msg4, boolean initial)` returns a boolean based on the user's decision. Each msg is drawn as a line and is limited to 16 characters.
 
+####sensor_test/
+Test program that displays the distances measured by an Ultrasonic sensor
+
+######Sensor_test.java
+Main class. Program asks for sensor port. Orange button can be used to reset measured min/max values.
+
+######Distance.java
+Class that handles distance measurement and keeps track of min/max.
+
+####rotationStaiton
+This NXT controls a small station that rotates the package, once it was delivered by the vehicle. In addition to that it can also check whether the station is occupied by a box or not. It is connected to a motor, an ultrasonic sensor and a push sensor.
+
+######Main.java
+Handles sensor check logic and initiates U-Turn
+
+######LCDthread.java
+Updates LCD display and shows current status
+
+######Motors.java
+Handles motor rotation. Keeps track of previous orientation and adjusts to it.
+
 ####vehicle/
 This NXT controls the movement of the robot. It determines the robots position through push sensors. The vehicle itself is moving on rails.
 
