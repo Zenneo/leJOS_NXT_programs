@@ -24,7 +24,7 @@ public class Main {
 
 	// -bluetooth server
 	private static final BTServer btserver = new BTServer(bdetect, 250);
-	
+
 	/* --Status Codes-- */
 	private static int current_task = 0;
 
@@ -54,14 +54,14 @@ public class Main {
 	public static void main(String[] args) throws InterruptedException {
 		// set up exit listener
 		Button.ESCAPE.addButtonListener(new ExitListener());
-		
+
 		// ask for debugging mode
 		enterDebuggingMode();
 
 		// BT thread
 		btserver.setPriority(Thread.NORM_PRIORITY - 1);
 		btserver.start();
-		
+
 		// LCD thread
 		Thread LCDthreadobj = new LCDthread(motor);
 		LCDthreadobj.setPriority(Thread.NORM_PRIORITY - 2);
