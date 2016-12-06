@@ -17,7 +17,6 @@ public class BTClient {
 	private final int packageWasDelivered = 7;
 	// constant vars
 	private final int waitBetweenSends;
-	private final int maxSendAttempts = 5;
 
 	// bluetooth vars
 	private final String btname;
@@ -33,65 +32,46 @@ public class BTClient {
 		this.waitBetweenSends = waitBetweenSends;
 	}
 
-	public boolean waitForPackage() {
-		// var for counting send attempts
-		int attempts = 0;
-
+	public void waitForPackage() {
 		// reconnect or connect if not done already
 		connectToDevice();
 		Main.setCurrent_task(3);
 		try {
 			Thread.sleep(500);
 		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		RConsole.println("[BT] Initiated package check");
 
 		while (!packageReceived) {
-			if (attempts < maxSendAttempts) {
+			try {
+				Main.setCurrent_task(3);
+
 				try {
-					Main.setCurrent_task(3);
-					// check if package has been received
-					// dos.writeInt(askForPackage);
-					// dos.flush();
-
-					attempts++;
-					RConsole.println("[BT] Attempt " + attempts);
-
-					try {
-						Thread.sleep(250);
-					} catch (InterruptedException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-
-					if (dis.readInt() == packageWasDelivered) {
-						packageReceived = true;
-						RConsole.println("[BT] Package was delivered");
-					} else {
-						packageReceived = false;
-						RConsole.println("[BT] Package check - no response");
-					}
-					// sleep between sends
-					try {
-						Thread.sleep(waitBetweenSends);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				} catch (IOException e) {
-					// e.printStackTrace();
-					closeConnection();
-					connectToDevice();
-				} catch (NullPointerException e2) {
-					// e.printStackTrace();
-					closeConnection();
-					connectToDevice();
+					Thread.sleep(250);
+				} catch (InterruptedException e1) {
+					e1.printStackTrace();
 				}
 
-			} else {
-				attempts = 0;
+				if (dis.readInt() == packageWasDelivered) {
+					packageReceived = true;
+					RConsole.println("[BT] Package was delivered");
+				} else {
+					packageReceived = false;
+					RConsole.println("[BT] Package check - no response");
+				}
+				// sleep between sends
+				try {
+					Thread.sleep(waitBetweenSends);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			} catch (IOException e) {
+				// e.printStackTrace();
+				closeConnection();
+				connectToDevice();
+			} catch (NullPointerException e2) {
+				// e.printStackTrace();
 				closeConnection();
 				connectToDevice();
 			}
@@ -105,8 +85,6 @@ public class BTClient {
 		}
 
 		closeConnection();
-
-		return true;
 	}
 
 	void connectToDevice() {
@@ -120,14 +98,16 @@ public class BTClient {
 				// given device name is unknown
 				if (btrd == null) {
 					RConsole.println("[BT] Device " + btname + " unknown!");
-					throw new BluetoothStateException("Device " + btname + " unknown!");
+					throw new BluetoothStateException("Device " + btname
+							+ " unknown!");
 				}
 
 				btc = Bluetooth.connect(btrd);
 				// connection failed
 				if (btc == null) {
 					RConsole.println("[BT] Can't connect to " + btname + "!");
-					throw new BluetoothStateException("Can't connect to " + btname + "!");
+					throw new BluetoothStateException("Can't connect to "
+							+ btname + "!");
 				}
 
 				dis = btc.openDataInputStream();
@@ -143,7 +123,6 @@ public class BTClient {
 			try {
 				Thread.sleep(waitBetweenSends);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
@@ -161,7 +140,6 @@ public class BTClient {
 		try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		try {

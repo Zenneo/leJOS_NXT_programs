@@ -17,7 +17,7 @@ public class Main {
 	// delivering station
 	private static final BTClient BTfactory = new BTClient("verladen", 2000);
 	// rotation station
-	private static final BTClient BTrotStat = new BTClient("rotationStation", 500);
+	private static final BTClient BTrotStat = new BTClient("drehStation", 500);
 	
 	// -sensors
 	private static final TouchSensor touch1 = new TouchSensor(SensorPort.S1);
