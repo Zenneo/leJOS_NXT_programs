@@ -20,7 +20,11 @@ public class Main {
 
 	// -sensors
 	private static final TouchSensor touch1 = new TouchSensor(SensorPort.S1);
-
+	private static final BoxDetect bdetect = new BoxDetect(SensorPort.S1);
+	
+	// -bluetooth server
+	private static final BTServer btserver = new BTServer(bdetect, 1000);
+	
 	/* --Status Codes-- */
 	private static int current_task = 0;
 
@@ -43,8 +47,6 @@ public class Main {
 		Main.current_task = current_task;
 	}
 
-	private static Thread LCDthreadobj = new LCDthread(motor);
-
 	/**
 	 * @param args
 	 * @throws InterruptedException
@@ -55,9 +57,12 @@ public class Main {
 		
 		// ask for debugging mode
 		enterDebuggingMode();
-
+		// BT thread
+		btserver.setPriority(Thread.NORM_PRIORITY - 1);
+		btserver.start();
 		// LCD thread
-		LCDthreadobj.setPriority(Thread.NORM_PRIORITY - 1);
+		Thread LCDthreadobj = new LCDthread(motor);
+		LCDthreadobj.setPriority(Thread.NORM_PRIORITY - 2);
 		LCDthreadobj.start();
 
 		// initialise
