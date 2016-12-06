@@ -6,7 +6,7 @@ import lejos.nxt.Battery;
 public class LCDthread extends Thread {
 
 	// vars
-	public int refreshRate = 500; // ms between each value update
+	public int refreshRate = 1000; // ms between each value update
 
 	private Motors motors;
 

@@ -20,7 +20,7 @@ public class Main {
 
 	// -sensors
 	private static final TouchSensor touch1 = new TouchSensor(SensorPort.S1);
-	private static final BoxDetect bdetect = new BoxDetect(SensorPort.S1);
+	private static final BoxDetect bdetect = new BoxDetect(SensorPort.S2);
 
 	// -bluetooth server
 	private static final BTServer btserver = new BTServer(bdetect, 1000);

@@ -13,7 +13,7 @@ public class BoxDetect {
 	public synchronized boolean isBox() {
 		int distance = sensor.getDistance();
 		
-		if (distance < 40) { // distance value has to be measured!
+		if (distance < 15) { // distance value has to be measured!
 			return true;
 		} else {
 			return false;
