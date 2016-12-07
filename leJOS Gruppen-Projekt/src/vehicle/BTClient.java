@@ -37,7 +37,7 @@ public class BTClient {
 		connectToDevice();
 		Main.setCurrent_task(3);
 		try {
-			Thread.sleep(500);
+			Thread.sleep(waitBetweenSends);
 		} catch (InterruptedException e1) {
 			e1.printStackTrace();
 		}
@@ -46,12 +46,6 @@ public class BTClient {
 		while (!packageReceived) {
 			try {
 				Main.setCurrent_task(3);
-
-				try {
-					Thread.sleep(250);
-				} catch (InterruptedException e1) {
-					e1.printStackTrace();
-				}
 
 				if (dis.readInt() == packageWasDelivered) {
 					packageReceived = true;
@@ -98,16 +92,14 @@ public class BTClient {
 				// given device name is unknown
 				if (btrd == null) {
 					RConsole.println("[BT] Device " + btname + " unknown!");
-					throw new BluetoothStateException("Device " + btname
-							+ " unknown!");
+					throw new BluetoothStateException("Device " + btname + " unknown!");
 				}
 
 				btc = Bluetooth.connect(btrd);
 				// connection failed
 				if (btc == null) {
 					RConsole.println("[BT] Can't connect to " + btname + "!");
-					throw new BluetoothStateException("Can't connect to "
-							+ btname + "!");
+					throw new BluetoothStateException("Can't connect to " + btname + "!");
 				}
 
 				dis = btc.openDataInputStream();

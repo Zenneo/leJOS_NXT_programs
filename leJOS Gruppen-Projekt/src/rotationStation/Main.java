@@ -23,7 +23,7 @@ public class Main {
 	private static final BoxDetect bdetect = new BoxDetect(SensorPort.S2);
 
 	// -bluetooth server
-	private static final BTServer btserver = new BTServer(bdetect, 1000);
+	private static final BTServer btserver = new BTServer(bdetect, 250);
 	
 	/* --Status Codes-- */
 	private static int current_task = 0;

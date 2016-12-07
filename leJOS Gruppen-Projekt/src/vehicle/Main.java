@@ -15,9 +15,9 @@ public class Main {
 	/* --Connected Peripherals-- */
 	// -bluetooth
 	// delivering station
-	private static final BTClient BTfactory = new BTClient("verladen", 2000);
+	private static final BTClient BTfactory = new BTClient("verladen", 500);
 	// rotation station
-	private static final BTClient BTrotStat = new BTClient("drehStation", 500);
+	private static final BTClient BTrotStat = new BTClient("drehStation", 250);
 	
 	// -sensors
 	private static final TouchSensor touch1 = new TouchSensor(SensorPort.S1);
