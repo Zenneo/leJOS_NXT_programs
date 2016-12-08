@@ -57,11 +57,17 @@ public class Main {
 
 		// ask for debugging mode
 		enterDebuggingMode();
+<<<<<<< HEAD
 
 		// BT thread
 		btserver.setPriority(Thread.NORM_PRIORITY - 1);
 		btserver.start();
 
+=======
+		// BT thread
+		btserver.setPriority(Thread.NORM_PRIORITY - 1);
+		btserver.start();
+>>>>>>> 8c80ad456beacb07614727a350e6445e201d15e6
 		// LCD thread
 		Thread LCDthreadobj = new LCDthread(motor);
 		LCDthreadobj.setPriority(Thread.NORM_PRIORITY - 2);
