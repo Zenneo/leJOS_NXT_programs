@@ -61,10 +61,6 @@ public class Main {
 		// BT thread
 		btserver.setPriority(Thread.NORM_PRIORITY - 1);
 		btserver.start();
-
-		// BT thread
-		btserver.setPriority(Thread.NORM_PRIORITY - 1);
-		btserver.start();
 		// LCD thread
 		Thread LCDthreadobj = new LCDthread(motor);
 		LCDthreadobj.setPriority(Thread.NORM_PRIORITY - 2);
