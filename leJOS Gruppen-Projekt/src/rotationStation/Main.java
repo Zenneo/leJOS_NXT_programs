@@ -70,6 +70,7 @@ public class Main {
 		// initialise
 		setCurrent_task(0);
 		motor.initMotor();
+		motor.doUTurn();
 
 		// main loop
 		while (true) {
