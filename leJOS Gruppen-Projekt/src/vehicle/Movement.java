@@ -25,8 +25,8 @@ public class Movement {
 	/* --Engines-- */
 	private NXTRegulatedMotor engine;
 	// Engine speed
-	private int engine_speed = 125;
-	private int engine_acceleration = 400;
+	private int engine_speed = 115;
+	private int engine_acceleration = 500;
 
 	public Movement(NXTRegulatedMotor motor1) {
 		engine = motor1;

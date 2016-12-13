@@ -75,6 +75,7 @@ public class Arm {
 		motor_rotate_initialpos = motor_rotate.getPosition();
 
 		motor_arm.rotate(2000); // rotate until stalled
+		setStallThresholds(2);
 		motor_arm.rotate(-1000); // ready for driving
 		motor_arm_initialpos = motor_arm.getPosition();
 	}
@@ -133,7 +134,7 @@ public class Arm {
 			// unload vehicle
 			setStallThresholds(2);
 			m_rotate(motor_rotate, 500);
-			m_rotate(motor_arm, 677);
+			m_rotateTo(motor_arm, motor_arm_initialpos + 645);
 			break;
 		default:
 			throw new UnsupportedOperationException();
