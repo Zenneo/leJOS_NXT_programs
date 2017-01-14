@@ -14,23 +14,23 @@ public class Arm {
 	private final int delay_between_rotations = 500; // in ms
 	private final int engine_rot_speed = 45; // rotation speed
 	private final int engine_arm_speed = 130; // lift speed
-	private final int engine_rot_acceleration = 800; // rotation acceleration
-	private final int engine_arm_acceleration = 600; // lift acceleration
+	private final int engine_rot_acceleration = 1000; // rotation acceleration
+	private final int engine_arm_acceleration = 800; // lift acceleration
 
 	// stall values
 	// --loading
-	private final int engine_rot_loading_stalled_error = 3; // stalled error
-	private final int engine_rot_loading_stalled_time = 750; // stalled time in
+	private final int engine_rot_loading_stalled_error = 120; // stalled error
+	private final int engine_rot_loading_stalled_time = 500; // stalled time in
 																// ms
-	private final int engine_arm_loading_stalled_error = 2; // stalled error
+	private final int engine_arm_loading_stalled_error = 100; // stalled error
 	private final int engine_arm_loading_stalled_time = 750; // stalled time in
 																// ms
 	// --unloading
-	private final int engine_rot_unloading_stalled_error = 5; // stalled error
-	private final int engine_rot_unloading_stalled_time = 750; // stalled time
+	private final int engine_rot_unloading_stalled_error = 100; // stalled error
+	private final int engine_rot_unloading_stalled_time = 500; // stalled time
 																// in ms
-	private final int engine_arm_unloading_stalled_error = 6; // stalled error
-	private final int engine_arm_unloading_stalled_time = 750; // stalled time
+	private final int engine_arm_unloading_stalled_error = 85; // stalled error
+	private final int engine_arm_unloading_stalled_time = 700; // stalled time
 																// in ms
 
 	private int motor_rotate_initialpos;
@@ -49,7 +49,12 @@ public class Arm {
 	}
 
 	public void setStallThresholds(int profile_id) {
-		if (profile_id == 1) {
+		if (profile_id == 0) {
+			// for initialisation
+			motor_rotate.setStallThreshold(90, 250);
+			motor_arm.setStallThreshold(100, 250);
+		}
+		else if (profile_id == 1) {
 			// for loading phase
 			motor_rotate.setStallThreshold(engine_rot_loading_stalled_error,
 					engine_rot_loading_stalled_time);
@@ -70,12 +75,12 @@ public class Arm {
 	public void rotateToInitial() {
 		RConsole.println("TASK: Rotate arms to initial position");
 
-		setStallThresholds(1);
+		setStallThresholds(0);
 		motor_rotate.rotate(1500); // rotate until stalled
 		motor_rotate_initialpos = motor_rotate.getPosition();
 
 		motor_arm.rotate(2000); // rotate until stalled
-		setStallThresholds(2);
+		setStallThresholds(0);
 		motor_arm.rotate(-1000); // ready for driving
 		motor_arm_initialpos = motor_arm.getPosition();
 	}

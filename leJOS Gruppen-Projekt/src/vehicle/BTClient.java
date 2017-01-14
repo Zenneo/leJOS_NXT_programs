@@ -33,6 +33,8 @@ public class BTClient {
 	}
 
 	public void waitForPackage() {
+		packageReceived = false;
+		
 		// reconnect or connect if not done already
 		connectToDevice();
 		Main.setCurrent_task(3);
